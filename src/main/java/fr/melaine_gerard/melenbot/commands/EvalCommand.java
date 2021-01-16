@@ -4,6 +4,8 @@ import fr.melaine_gerard.melenbot.enumerations.Category;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import groovy.lang.GroovyShell;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.List;
@@ -29,7 +31,7 @@ public class EvalCommand implements ICommand {
 
     @Override
     public String getDescription() {
-        return "Permet de tester l'éxecution d'un bout de code";
+        return "Permet de tester l'exécution d'un bout de code";
     }
 
     @Override
@@ -51,7 +53,12 @@ public class EvalCommand implements ICommand {
             String script = imports + event.getMessage().getContentRaw().split("\\s+", 2)[1];
             Object out = engine.evaluate(script);
 
-            event.getChannel().sendMessage("```\n" + (out == null ? EmbedUtils.createSuccessEmbed(event.getJDA(), "Executed without error").build() : out.toString()) + "\n```").queue();
+            if (out == null)
+                event.getChannel().sendMessage(EmbedUtils.createSuccessEmbed(event.getJDA(), "Exécuté avec succès !").build()).queue();
+            else if (out instanceof MessageEmbed)
+                event.getChannel().sendMessage((MessageEmbed) out).queue();
+            else
+                event.getChannel().sendMessage(EmbedUtils.createEmbed(event.getJDA()).setTitle("Code Exécuté : ").setDescription(String.format("```\n%s\n```", out.toString())).build()).queue();
         }catch (Exception e){
             event.getChannel().sendMessage("Une erreur est survenu lors de l'éxécution de la commande : \n" + e.getMessage()).queue();
         }
