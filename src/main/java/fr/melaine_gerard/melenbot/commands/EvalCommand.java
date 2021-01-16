@@ -2,6 +2,7 @@ package fr.melaine_gerard.melenbot.commands;
 
 import fr.melaine_gerard.melenbot.enumerations.Category;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
+import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import groovy.lang.GroovyShell;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -50,7 +51,7 @@ public class EvalCommand implements ICommand {
             String script = imports + event.getMessage().getContentRaw().split("\\s+", 2)[1];
             Object out = engine.evaluate(script);
 
-            event.getChannel().sendMessage("```\n" + (out == null ? "Executed without error" : out.toString()) + "\n```").queue();
+            event.getChannel().sendMessage("```\n" + (out == null ? EmbedUtils.createSuccessEmbed(event.getJDA(), "Executed without error").build() : out.toString()) + "\n```").queue();
         }catch (Exception e){
             event.getChannel().sendMessage("Une erreur est survenu lors de l'éxécution de la commande : \n" + e.getMessage()).queue();
         }
