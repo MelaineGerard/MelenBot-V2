@@ -16,7 +16,7 @@ public class MelenBot {
 
     public static void main(String[] args) {
         config = FileUtils.getYamlFile("config.yml");
-        System.out.println("Connection is progress...");
+        getLogger().info("Connection in progress...");
         JDA jda = loadJda();
         registerListeners(jda);
         getLogger().info(String.format("Connected as %s", jda.getSelfUser().getAsTag()));

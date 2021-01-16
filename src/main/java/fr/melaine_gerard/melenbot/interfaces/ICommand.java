@@ -1,10 +1,9 @@
 package fr.melaine_gerard.melenbot.interfaces;
 
-import fr.melaine_gerard.melenbot.enumerarions.Category;
+import fr.melaine_gerard.melenbot.enumerations.Category;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.List;
-import java.util.Locale;
 
 public interface ICommand {
     default String getName() {

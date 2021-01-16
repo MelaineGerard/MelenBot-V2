@@ -1,5 +1,6 @@
 package fr.melaine_gerard.melenbot.managers;
 
+import fr.melaine_gerard.melenbot.commands.EvalCommand;
 import fr.melaine_gerard.melenbot.commands.HelpCommand;
 import fr.melaine_gerard.melenbot.commands.PingCommand;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
@@ -18,6 +19,7 @@ public class CommandManager {
     public CommandManager(){
         addCommand(new PingCommand());
         addCommand(new HelpCommand(this));
+        addCommand(new EvalCommand());
     }
 
     private void addCommand(ICommand command) {

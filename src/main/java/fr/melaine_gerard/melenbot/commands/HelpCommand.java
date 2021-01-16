@@ -1,6 +1,6 @@
 package fr.melaine_gerard.melenbot.commands;
 
-import fr.melaine_gerard.melenbot.enumerarions.Category;
+import fr.melaine_gerard.melenbot.enumerations.Category;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.managers.CommandManager;
 import fr.melaine_gerard.melenbot.utils.Constants;
@@ -30,7 +30,7 @@ public class HelpCommand implements ICommand {
             for (Category cat : Category.values()) {
                 StringBuilder sb = new StringBuilder();
                 for (ICommand cmd : commandManager.getCommands()){
-                    if(cat == cmd.getCategory())
+                    if(cat == cmd.getCategory() && (!cmd.isOwnerCommand() || Constants.OWNER_ID.equals(event.getAuthor().getId())))
                         sb.append(cmd.getName()).append(", ");
                 }
                 if(sb.length() != 0)
@@ -40,7 +40,7 @@ public class HelpCommand implements ICommand {
             return;
         }
         ICommand cmd = commandManager.getCommand(args.get(0).toLowerCase());
-        if(cmd == null){
+        if(cmd == null || (cmd.isOwnerCommand() && !Constants.OWNER_ID.equals(event.getAuthor().getId()))){
             event.getChannel().sendMessage("Cette commande n'existe pas !").queue();
             return;
         }
@@ -48,9 +48,8 @@ public class HelpCommand implements ICommand {
         EmbedBuilder eb = EmbedUtils.createEmbed(event.getJDA());
         eb.setTitle("Information sur la commande " + cmd.getName());
         eb.addField("Description :", cmd.getDescription(), true);
-        eb.addField("Utilisation :", Constants.PREFIX + cmd.getName() + " " + cmd.getUsage(), true);
-        if(cmd.getCategory() != null) eb.addField("Catégorie :", cmd.getCategory().getName(), true);
-        eb.addField("Owner only: ", cmd.isOwnerCommand() ? "Oui" : "Non", true);
+        eb.addField("Utilisation :", Constants.PREFIX + cmd.getName() + " " + cmd.getUsage(), false);
+        if(cmd.getCategory() != null) eb.addField("Catégorie :", cmd.getCategory().getName(), false);
         event.getChannel().sendMessage(eb.build()).queue();
 
     }
