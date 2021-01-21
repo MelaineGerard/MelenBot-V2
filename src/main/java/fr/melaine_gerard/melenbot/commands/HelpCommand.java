@@ -4,6 +4,7 @@ import fr.melaine_gerard.melenbot.enumerations.Category;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.managers.CommandManager;
 import fr.melaine_gerard.melenbot.utils.Constants;
+import fr.melaine_gerard.melenbot.utils.DatabaseUtils;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class HelpCommand implements ICommand {
     private final CommandManager commandManager;
+
 
     public HelpCommand(CommandManager commandManager) {
         this.commandManager = commandManager;
@@ -24,6 +26,8 @@ public class HelpCommand implements ICommand {
 
     @Override
     public void handle(GuildMessageReceivedEvent event, List<String> args) {
+        final String temp = DatabaseUtils.getPrefix(event.getGuild().getId());
+        final String prefix = temp != null ? temp : Constants.PREFIX;
         if(args.isEmpty()){
             EmbedBuilder eb = EmbedUtils.createEmbed(event.getJDA());
             eb.setTitle("Liste de toutes mes commandes");
@@ -48,7 +52,7 @@ public class HelpCommand implements ICommand {
         EmbedBuilder eb = EmbedUtils.createEmbed(event.getJDA());
         eb.setTitle("Information sur la commande " + cmd.getName());
         eb.addField("Description :", cmd.getDescription(), true);
-        eb.addField("Utilisation :", Constants.PREFIX + cmd.getName() + " " + cmd.getUsage(), false);
+        eb.addField("Utilisation :", prefix + cmd.getName() + " " + cmd.getUsage(), false);
         if(cmd.getCategory() != null) eb.addField("Catégorie :", cmd.getCategory().getName(), false);
         event.getChannel().sendMessage(eb.build()).queue();
 

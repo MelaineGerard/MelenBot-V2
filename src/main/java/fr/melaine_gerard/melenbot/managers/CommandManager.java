@@ -3,8 +3,10 @@ package fr.melaine_gerard.melenbot.managers;
 import fr.melaine_gerard.melenbot.commands.EvalCommand;
 import fr.melaine_gerard.melenbot.commands.HelpCommand;
 import fr.melaine_gerard.melenbot.commands.PingCommand;
+import fr.melaine_gerard.melenbot.commands.SetPrefixCommand;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.Constants;
+import fr.melaine_gerard.melenbot.utils.DatabaseUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +22,7 @@ public class CommandManager {
         addCommand(new PingCommand());
         addCommand(new HelpCommand(this));
         addCommand(new EvalCommand());
+        addCommand(new SetPrefixCommand());
     }
 
     private void addCommand(ICommand command) {
@@ -30,7 +33,8 @@ public class CommandManager {
 
 
     public void handleCommand(GuildMessageReceivedEvent event) {
-        String prefix = Constants.PREFIX;
+        String temp = DatabaseUtils.getPrefix(event.getGuild().getId());
+        String prefix = temp != null ? temp : Constants.PREFIX;
         final String[] split = event.getMessage().getContentRaw().replaceFirst("(?i)" + Pattern.quote(prefix), "").split("\\s+");
         final String invoke = split[0].toLowerCase();
 
@@ -40,6 +44,10 @@ public class CommandManager {
             ICommand cmd = commands.get(invoke);
             if (cmd.isOwnerCommand() && !event.getAuthor().getId().equals(Constants.OWNER_ID)){
                 event.getChannel().sendMessage("This is an owner command !").queue();
+                return;
+            }
+            if(!event.getMember().hasPermission(cmd.permissionsNeeded())){
+                event.getChannel().sendMessage("You don't have permission to do that !").queue();
                 return;
             }
             cmd.handle(event, args);

@@ -1,3 +1,9 @@
 token: token
 ownerId: ownerId
 prefix: m!
+mysql:
+  user: melen
+  pass: melen
+  database: melen
+  host: localhost
+  port: 3306
