@@ -47,7 +47,7 @@ public class BanCommand implements ICommand {
             return;
         }
 
-        member.ban(30, reason).queue();
+        member.ban(7, reason).queue();
     }
 
     @Override
