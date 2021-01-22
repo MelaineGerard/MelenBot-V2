@@ -4,7 +4,9 @@ public enum Category {
     INFOS("Information"),
     UTILS("Utilitaire"),
     MUSIC("Musique"),
+    FUN("Fun"),
     GAME("Jeu"),
+    MODS("Modération"),
     OWNER("Owner"),
     OTHER("Autre");
 
