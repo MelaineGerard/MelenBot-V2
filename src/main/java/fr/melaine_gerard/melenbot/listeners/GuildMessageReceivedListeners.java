@@ -14,7 +14,7 @@ public class GuildMessageReceivedListeners extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         if (event.getAuthor().isBot() || event.getMessage().isWebhookMessage()) return;
-        String temp = DatabaseUtils.getPrefix(event.getGuild().getId());
+        final String temp = DatabaseUtils.getValue(event.getGuild().getId(), "prefix");
         String prefix = temp != null ? temp : Constants.PREFIX;
         if (event.getMessage().getContentRaw().startsWith(prefix)) {
             event.getChannel().sendTyping().queue();

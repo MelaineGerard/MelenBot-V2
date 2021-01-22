@@ -7,7 +7,6 @@ import fr.melaine_gerard.melenbot.commands.SetPrefixCommand;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.Constants;
 import fr.melaine_gerard.melenbot.utils.DatabaseUtils;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,7 +32,7 @@ public class CommandManager {
 
 
     public void handleCommand(GuildMessageReceivedEvent event) {
-        String temp = DatabaseUtils.getPrefix(event.getGuild().getId());
+        final String temp = DatabaseUtils.getValue(event.getGuild().getId(), "prefix");
         String prefix = temp != null ? temp : Constants.PREFIX;
         final String[] split = event.getMessage().getContentRaw().replaceFirst("(?i)" + Pattern.quote(prefix), "").split("\\s+");
         final String invoke = split[0].toLowerCase();

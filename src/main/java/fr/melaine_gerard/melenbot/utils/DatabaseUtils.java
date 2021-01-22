@@ -43,10 +43,11 @@ public class DatabaseUtils {
         }
     }
 
-    public static String getPrefix(String guildId){
+    public static String getValue(String guildId, String column){
         try {
-            PreparedStatement statement = melenConnection.prepareStatement("SELECT `prefix` FROM `guild` WHERE guildId = ?;");
-            statement.setString(1, guildId);
+            PreparedStatement statement = melenConnection.prepareStatement("SELECT ? FROM `guild` WHERE guildId = ?;");
+            statement.setString(1, column);
+            statement.setString(2, guildId);
             ResultSet rs = statement.executeQuery();
             if (rs.next())
                 return rs.getString("prefix");
