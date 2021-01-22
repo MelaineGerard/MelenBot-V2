@@ -1,4 +1,4 @@
-package fr.melaine_gerard.melenbot.commands;
+package fr.melaine_gerard.melenbot.commands.owner;
 
 import fr.melaine_gerard.melenbot.enumerations.Category;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;

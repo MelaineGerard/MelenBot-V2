@@ -1,9 +1,9 @@
 package fr.melaine_gerard.melenbot.managers;
 
-import fr.melaine_gerard.melenbot.commands.EvalCommand;
-import fr.melaine_gerard.melenbot.commands.HelpCommand;
-import fr.melaine_gerard.melenbot.commands.PingCommand;
-import fr.melaine_gerard.melenbot.commands.SetPrefixCommand;
+import fr.melaine_gerard.melenbot.commands.owner.EvalCommand;
+import fr.melaine_gerard.melenbot.commands.utils.HelpCommand;
+import fr.melaine_gerard.melenbot.commands.infos.PingCommand;
+import fr.melaine_gerard.melenbot.commands.utils.SetPrefixCommand;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.Constants;
 import fr.melaine_gerard.melenbot.utils.DatabaseUtils;

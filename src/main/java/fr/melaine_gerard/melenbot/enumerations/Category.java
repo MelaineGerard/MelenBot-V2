@@ -1,9 +1,10 @@
 package fr.melaine_gerard.melenbot.enumerations;
 
 public enum Category {
-    MUSIC("Musique"),
-    UTILS("Utilitaire"),
     INFOS("Information"),
+    UTILS("Utilitaire"),
+    MUSIC("Musique"),
+    GAME("Jeu"),
     OWNER("Owner"),
     OTHER("Autre");
 
