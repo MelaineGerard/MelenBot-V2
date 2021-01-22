@@ -56,11 +56,12 @@ public class DatabaseUtils {
         return null;
     }
 
-    public static void setPrefix(String guildId, String prefix){
+    public static void updateValue(String guildId, String column, String value){
         try {
-            PreparedStatement statement = melenConnection.prepareStatement("UPDATE `guild` SET `prefix` = ? WHERE `guild`.`guildId` = ?;");
-            statement.setString(1, prefix);
-            statement.setString(2, guildId);
+            PreparedStatement statement = melenConnection.prepareStatement("UPDATE `guild` SET ? = ? WHERE `guild`.`guildId` = ?;");
+            statement.setString(1, column);
+            statement.setString(2, value);
+            statement.setString(3, guildId);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
