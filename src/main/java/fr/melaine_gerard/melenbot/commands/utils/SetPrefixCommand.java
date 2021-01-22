@@ -25,7 +25,7 @@ public class SetPrefixCommand implements ICommand {
         String prefix = args.get(0);
         if (!DatabaseUtils.isGuildExists(event.getGuild().getId()))
             DatabaseUtils.createGuild(event.getGuild().getId());
-        DatabaseUtils.updateValue(event.getGuild().getId(), "prefix",prefix);
+        DatabaseUtils.updatePrefix(event.getGuild().getId(), prefix);
         event.getChannel().sendMessage(String.format("Le nouveau prefix est : %s", prefix)).queue();
     }
 

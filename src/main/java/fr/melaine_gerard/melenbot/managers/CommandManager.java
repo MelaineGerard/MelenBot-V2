@@ -1,5 +1,6 @@
 package fr.melaine_gerard.melenbot.managers;
 
+import fr.melaine_gerard.melenbot.commands.mods.BanCommand;
 import fr.melaine_gerard.melenbot.commands.owner.EvalCommand;
 import fr.melaine_gerard.melenbot.commands.utils.HelpCommand;
 import fr.melaine_gerard.melenbot.commands.infos.PingCommand;
@@ -22,6 +23,7 @@ public class CommandManager {
         addCommand(new HelpCommand(this));
         addCommand(new EvalCommand());
         addCommand(new SetPrefixCommand());
+        addCommand(new BanCommand());
     }
 
     private void addCommand(ICommand command) {
@@ -32,7 +34,7 @@ public class CommandManager {
 
 
     public void handleCommand(GuildMessageReceivedEvent event) {
-        final String temp = DatabaseUtils.getValue(event.getGuild().getId(), "prefix");
+        String temp = DatabaseUtils.getPrefix(event.getGuild().getId());
         String prefix = temp != null ? temp : Constants.PREFIX;
         final String[] split = event.getMessage().getContentRaw().replaceFirst("(?i)" + Pattern.quote(prefix), "").split("\\s+");
         final String invoke = split[0].toLowerCase();

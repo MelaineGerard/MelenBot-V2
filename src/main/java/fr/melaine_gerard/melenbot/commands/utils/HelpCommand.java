@@ -26,8 +26,8 @@ public class HelpCommand implements ICommand {
 
     @Override
     public void handle(GuildMessageReceivedEvent event, List<String> args) {
-        final String temp = DatabaseUtils.getValue(event.getGuild().getId(), "prefix");
-        final String prefix = temp != null ? temp : Constants.PREFIX;
+        String temp = DatabaseUtils.getPrefix(event.getGuild().getId());
+        String prefix = temp != null ? temp : Constants.PREFIX;
         if(args.isEmpty()){
             EmbedBuilder eb = EmbedUtils.createEmbed(event.getJDA());
             eb.setTitle("Liste de toutes mes commandes");

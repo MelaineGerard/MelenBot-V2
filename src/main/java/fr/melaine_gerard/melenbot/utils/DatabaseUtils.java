@@ -22,7 +22,7 @@ public class DatabaseUtils {
 
     public static boolean isGuildExists(String guildId){
         try {
-            PreparedStatement statement = melenConnection.prepareStatement("SELECT * FROM `guild` WHERE guildId = ?;");
+            PreparedStatement statement = melenConnection.prepareStatement("SELECT guildId FROM `guild` WHERE guildId = ?;");
             statement.setString(1, guildId);
             ResultSet rs = statement.executeQuery();
             if (rs.next())
@@ -43,26 +43,24 @@ public class DatabaseUtils {
         }
     }
 
-    public static String getValue(String guildId, String column){
+    public static String getPrefix(String guildId){
         try {
-            PreparedStatement statement = melenConnection.prepareStatement("SELECT ? FROM `guild` WHERE guildId = ?;");
-            statement.setString(1, column);
-            statement.setString(2, guildId);
+            PreparedStatement statement = melenConnection.prepareStatement("SELECT `prefix` FROM `guild` WHERE guildId = ?;");
+            statement.setString(1, guildId);
             ResultSet rs = statement.executeQuery();
             if (rs.next())
-                return rs.getString("prefix");
+                return rs.getString(1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static void updateValue(String guildId, String column, String value){
+    public static void updatePrefix(String guildId, String value){
         try {
-            PreparedStatement statement = melenConnection.prepareStatement("UPDATE `guild` SET ? = ? WHERE `guild`.`guildId` = ?;");
-            statement.setString(1, column);
-            statement.setString(2, value);
-            statement.setString(3, guildId);
+            PreparedStatement statement = melenConnection.prepareStatement("UPDATE `guild` SET `prefix` = ? WHERE `guildId` = ?;");
+            statement.setString(1, value);
+            statement.setString(2, guildId);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
