@@ -1,4 +1,4 @@
-package fr.melaine_gerard.melenbot.utils;
+package fr.melaine_gerard.melenbot.utils.db;
 
 import fr.melaine_gerard.melenbot.MelenBot;
 import org.slf4j.Logger;

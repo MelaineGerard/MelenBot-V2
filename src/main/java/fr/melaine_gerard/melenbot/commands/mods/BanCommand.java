@@ -2,6 +2,7 @@ package fr.melaine_gerard.melenbot.commands.mods;
 
 import fr.melaine_gerard.melenbot.enumerations.Category;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
+import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -47,7 +48,7 @@ public class BanCommand implements ICommand {
             return;
         }
 
-        member.ban(7, reason).queue();
+        member.ban(7, reason).queue(mbr -> event.getChannel().sendMessage(EmbedUtils.createSuccessEmbed(event.getJDA(), member.getUser().getAsTag() + " a été banni avec succès !").build()).queue());
     }
 
     @Override

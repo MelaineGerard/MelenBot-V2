@@ -2,7 +2,7 @@ package fr.melaine_gerard.melenbot;
 
 import fr.melaine_gerard.melenbot.listeners.GuildMessageReceivedListeners;
 import fr.melaine_gerard.melenbot.managers.DatabaseManager;
-import fr.melaine_gerard.melenbot.utils.DatabaseUtils;
+import fr.melaine_gerard.melenbot.utils.db.DatabaseUtils;
 import fr.melaine_gerard.melenbot.utils.FileUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;

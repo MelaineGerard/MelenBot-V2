@@ -1,8 +1,8 @@
 package fr.melaine_gerard.melenbot.managers;
 
 import fr.melaine_gerard.melenbot.MelenBot;
-import fr.melaine_gerard.melenbot.db.DbConnection;
-import fr.melaine_gerard.melenbot.db.DbCredentials;
+import fr.melaine_gerard.melenbot.utils.db.DbConnection;
+import fr.melaine_gerard.melenbot.utils.db.DbCredentials;
 
 import java.sql.Connection;
 import java.sql.SQLException;

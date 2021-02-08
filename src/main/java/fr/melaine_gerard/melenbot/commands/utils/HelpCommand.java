@@ -4,7 +4,7 @@ import fr.melaine_gerard.melenbot.enumerations.Category;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.managers.CommandManager;
 import fr.melaine_gerard.melenbot.utils.Constants;
-import fr.melaine_gerard.melenbot.utils.DatabaseUtils;
+import fr.melaine_gerard.melenbot.utils.db.DatabaseUtils;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;

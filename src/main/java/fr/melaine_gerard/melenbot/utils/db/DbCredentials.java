@@ -1,4 +1,4 @@
-package fr.melaine_gerard.melenbot.db;
+package fr.melaine_gerard.melenbot.utils.db;
 
 public class DbCredentials {
     private String host;

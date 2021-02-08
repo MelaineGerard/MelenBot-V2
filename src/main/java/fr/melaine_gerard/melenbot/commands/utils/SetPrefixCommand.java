@@ -2,7 +2,7 @@ package fr.melaine_gerard.melenbot.commands.utils;
 
 import fr.melaine_gerard.melenbot.enumerations.Category;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
-import fr.melaine_gerard.melenbot.utils.DatabaseUtils;
+import fr.melaine_gerard.melenbot.utils.db.DatabaseUtils;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 

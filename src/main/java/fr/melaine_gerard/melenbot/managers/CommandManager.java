@@ -1,13 +1,15 @@
 package fr.melaine_gerard.melenbot.managers;
 
 import fr.melaine_gerard.melenbot.commands.mods.BanCommand;
+import fr.melaine_gerard.melenbot.commands.music.JoinCommand;
 import fr.melaine_gerard.melenbot.commands.owner.EvalCommand;
 import fr.melaine_gerard.melenbot.commands.utils.HelpCommand;
 import fr.melaine_gerard.melenbot.commands.infos.PingCommand;
+import fr.melaine_gerard.melenbot.commands.utils.PollCommand;
 import fr.melaine_gerard.melenbot.commands.utils.SetPrefixCommand;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.Constants;
-import fr.melaine_gerard.melenbot.utils.DatabaseUtils;
+import fr.melaine_gerard.melenbot.utils.db.DatabaseUtils;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,6 +26,8 @@ public class CommandManager {
         addCommand(new EvalCommand());
         addCommand(new SetPrefixCommand());
         addCommand(new BanCommand());
+        addCommand(new PollCommand());
+        addCommand(new JoinCommand());
     }
 
     private void addCommand(ICommand command) {

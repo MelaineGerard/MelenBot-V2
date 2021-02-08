@@ -26,7 +26,9 @@ public class EvalCommand implements ICommand {
                 "import net.dv8tion.jda.api.managers.*\n" +
                 "import net.dv8tion.jda.api.managers.impl.*\n" +
                 "import net.dv8tion.jda.api.utils.*\n" +
-                "import fr.melaine_gerard.melenbot.*\n";
+                "import fr.melaine_gerard.melenbot.*\n" +
+                "import fr.melaine_gerard.melenbot.utils.*\n" +
+                "import fr.melaine_gerard.melenbot.utils.db.*\n";
     }
 
     @Override
