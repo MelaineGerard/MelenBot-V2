@@ -1,10 +1,7 @@
 package fr.melaine_gerard.melenbot.managers;
 
 import fr.melaine_gerard.melenbot.commands.mods.BanCommand;
-import fr.melaine_gerard.melenbot.commands.music.JoinCommand;
-import fr.melaine_gerard.melenbot.commands.music.PlayCommand;
-import fr.melaine_gerard.melenbot.commands.music.SkipCommand;
-import fr.melaine_gerard.melenbot.commands.music.StopCommand;
+import fr.melaine_gerard.melenbot.commands.music.*;
 import fr.melaine_gerard.melenbot.commands.owner.EvalCommand;
 import fr.melaine_gerard.melenbot.commands.utils.HelpCommand;
 import fr.melaine_gerard.melenbot.commands.infos.PingCommand;
@@ -34,6 +31,10 @@ public class CommandManager {
         addCommand(new PlayCommand());
         addCommand(new StopCommand());
         addCommand(new SkipCommand());
+        addCommand(new NowPlayingCommand());
+        addCommand(new QueueCommand());
+        addCommand(new RepeatCommand());
+        addCommand(new LeaveCommand());
     }
 
     private void addCommand(ICommand command) {

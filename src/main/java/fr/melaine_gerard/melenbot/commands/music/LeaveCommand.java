@@ -2,7 +2,6 @@ package fr.melaine_gerard.melenbot.commands.music;
 
 import fr.melaine_gerard.melenbot.enumerations.Category;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
-import fr.melaine_gerard.melenbot.utils.lavaplayer.GuildMusicManager;
 import fr.melaine_gerard.melenbot.utils.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
@@ -12,10 +11,10 @@ import net.dv8tion.jda.api.managers.AudioManager;
 
 import java.util.List;
 
-public class StopCommand implements ICommand {
+public class LeaveCommand implements ICommand {
     @Override
     public String getDescription() {
-        return "Permet de stopper la musique";
+        return "Permet au bot de se déconnecter du salon";
     }
 
     @Override
@@ -46,17 +45,12 @@ public class StopCommand implements ICommand {
             return;
         }
 
-        final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(event.getGuild());
-
-        musicManager.scheduler.player.stopTrack();
-        musicManager.scheduler.queue.clear();
+        PlayerManager.getInstance().getMusicManager(event.getGuild()).scheduler.repeating = false;
+        PlayerManager.getInstance().getMusicManager(event.getGuild()).scheduler.queue.clear();
+        PlayerManager.getInstance().getMusicManager(event.getGuild()).scheduler.player.stopTrack();
 
         final AudioManager audioManager = event.getGuild().getAudioManager();
         audioManager.closeAudioConnection();
-        channel.sendMessage("Musique stoppé et file d'attente vidée !").queue();
-
-
-
+        channel.sendMessage("Deconnexion du salon vocal en cours...").queue();
     }
-
 }

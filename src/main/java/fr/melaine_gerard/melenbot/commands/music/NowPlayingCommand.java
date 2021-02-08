@@ -1,5 +1,8 @@
 package fr.melaine_gerard.melenbot.commands.music;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import fr.melaine_gerard.melenbot.enumerations.Category;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.lavaplayer.GuildMusicManager;
@@ -8,14 +11,13 @@ import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.managers.AudioManager;
 
 import java.util.List;
 
-public class StopCommand implements ICommand {
+public class NowPlayingCommand implements ICommand {
     @Override
     public String getDescription() {
-        return "Permet de stopper la musique";
+        return "Permet de voir la musique en cours de lecture";
     }
 
     @Override
@@ -47,16 +49,16 @@ public class StopCommand implements ICommand {
         }
 
         final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(event.getGuild());
+        final AudioPlayer audioPlayer = musicManager.audioPlayer;
+        final AudioTrack playingTrack = audioPlayer.getPlayingTrack();
+        if(playingTrack == null){
+            channel.sendMessage("Aucune musique en cours de lecture !").queue();
+            return;
+        }
 
-        musicManager.scheduler.player.stopTrack();
-        musicManager.scheduler.queue.clear();
+        final AudioTrackInfo info = playingTrack.getInfo();
 
-        final AudioManager audioManager = event.getGuild().getAudioManager();
-        audioManager.closeAudioConnection();
-        channel.sendMessage("Musique stoppé et file d'attente vidée !").queue();
-
-
+        channel.sendMessageFormat("Musique en cours de lecture : `%s` par `%s` (lien : <%s>)", info.title, info.author, info.uri).queue();
 
     }
-
 }

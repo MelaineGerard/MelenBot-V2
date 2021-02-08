@@ -8,14 +8,13 @@ import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.managers.AudioManager;
 
 import java.util.List;
 
-public class StopCommand implements ICommand {
+public class RepeatCommand implements ICommand {
     @Override
     public String getDescription() {
-        return "Permet de stopper la musique";
+        return "Permet de répeter la musique en cours";
     }
 
     @Override
@@ -47,16 +46,9 @@ public class StopCommand implements ICommand {
         }
 
         final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(event.getGuild());
+        final boolean newRepeating = !musicManager.scheduler.repeating;
+        musicManager.scheduler.repeating = newRepeating;
 
-        musicManager.scheduler.player.stopTrack();
-        musicManager.scheduler.queue.clear();
-
-        final AudioManager audioManager = event.getGuild().getAudioManager();
-        audioManager.closeAudioConnection();
-        channel.sendMessage("Musique stoppé et file d'attente vidée !").queue();
-
-
-
+        channel.sendMessageFormat("Le bot passe en mode **%s** !", newRepeating ? "répétition de la musique en cours" : "je continue la playlist");
     }
-
 }
