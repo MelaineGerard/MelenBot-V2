@@ -2,6 +2,7 @@ package fr.melaine_gerard.melenbot.commands.music;
 
 import fr.melaine_gerard.melenbot.enumerations.Category;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
+import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import fr.melaine_gerard.melenbot.utils.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
@@ -31,24 +32,24 @@ public class PlayCommand implements ICommand {
         final GuildVoiceState selfVoiceState = selfMember.getVoiceState();
 
         if(args.isEmpty()){
-            channel.sendMessage("Merci d'indiquer le lien d'une vidéo youtube !").queue();
+            channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Merci d'indiquer le lien d'une vidéo youtube !").build()).queue();
             return;
         }
 
         if(!selfVoiceState.inVoiceChannel()){
-            channel.sendMessage("Je dois être dans un salon vocal !").queue();
+            channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Je dois être dans un salon vocal !").build()).queue();
             return;
         }
 
         final Member member = event.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
         if(!memberVoiceState.inVoiceChannel()){
-            channel.sendMessage("Tu dois être dans un salon vocal !").queue();
+            channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Tu dois être dans un salon vocal !").build()).queue();
             return;
         }
 
         if(!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())){
-            channel.sendMessage("Je dois être dans le même salon que toi !").queue();
+            channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Je dois être dans le même salon que toi !").build()).queue();
             return;
         }
 
