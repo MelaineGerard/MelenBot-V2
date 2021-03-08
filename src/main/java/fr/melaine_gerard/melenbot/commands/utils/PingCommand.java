@@ -1,4 +1,4 @@
-package fr.melaine_gerard.melenbot.commands.infos;
+package fr.melaine_gerard.melenbot.commands.utils;
 
 import fr.melaine_gerard.melenbot.enumerations.Category;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
@@ -29,7 +29,7 @@ public class PingCommand implements ICommand {
 
     @Override
     public Category getCategory() {
-        return Category.INFOS;
+        return Category.UTILS;
     }
 
 }

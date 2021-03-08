@@ -1,4 +1,9 @@
 .idea/
 /config.yml
 target/
-MelenBot.iml
+*.iml
+.settings
+.project
+/dependency-reduced-pom.xml
+.classpath
+.vscode

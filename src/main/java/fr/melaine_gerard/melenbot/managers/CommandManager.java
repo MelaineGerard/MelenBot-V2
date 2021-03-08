@@ -1,10 +1,11 @@
 package fr.melaine_gerard.melenbot.managers;
 
+import fr.melaine_gerard.melenbot.commands.infos.BotinfoCommand;
 import fr.melaine_gerard.melenbot.commands.mods.BanCommand;
 import fr.melaine_gerard.melenbot.commands.music.*;
 import fr.melaine_gerard.melenbot.commands.owner.EvalCommand;
 import fr.melaine_gerard.melenbot.commands.utils.HelpCommand;
-import fr.melaine_gerard.melenbot.commands.infos.PingCommand;
+import fr.melaine_gerard.melenbot.commands.utils.PingCommand;
 import fr.melaine_gerard.melenbot.commands.utils.PollCommand;
 import fr.melaine_gerard.melenbot.commands.utils.SetPrefixCommand;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
@@ -21,12 +22,19 @@ public class CommandManager {
     private final Map<String, ICommand> commands = new HashMap<>();
 
     public CommandManager(){
+        //Owner
+        addCommand(new EvalCommand());
+
+        // Mods
+        addCommand(new BanCommand());
+
+        // Utils
+        addCommand(new PollCommand());
         addCommand(new PingCommand());
         addCommand(new HelpCommand(this));
-        addCommand(new EvalCommand());
         addCommand(new SetPrefixCommand());
-        addCommand(new BanCommand());
-        addCommand(new PollCommand());
+
+        // Music
         addCommand(new JoinCommand());
         addCommand(new PlayCommand());
         addCommand(new StopCommand());
@@ -35,6 +43,9 @@ public class CommandManager {
         addCommand(new QueueCommand());
         addCommand(new RepeatCommand());
         addCommand(new LeaveCommand());
+
+        // Infos
+        addCommand(new BotinfoCommand(this));
     }
 
     private void addCommand(ICommand command) {

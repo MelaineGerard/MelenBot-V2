@@ -10,7 +10,7 @@
 
     <repositories>
         <repository>
-            <id>jcenter</id>
+            <id>jcentere</id>
             <name>jcenter-bintray</name>
             <url>https://jcenter.bintray.com</url>
         </repository>
@@ -52,6 +52,7 @@
             <version>1.3.67</version>
         </dependency>
     </dependencies>
+
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
