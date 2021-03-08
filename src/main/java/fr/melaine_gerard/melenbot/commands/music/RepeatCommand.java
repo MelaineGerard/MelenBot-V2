@@ -2,6 +2,7 @@ package fr.melaine_gerard.melenbot.commands.music;
 
 import fr.melaine_gerard.melenbot.enumerations.Category;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
+import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import fr.melaine_gerard.melenbot.utils.lavaplayer.GuildMusicManager;
 import fr.melaine_gerard.melenbot.utils.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -29,26 +30,26 @@ public class RepeatCommand implements ICommand {
         final GuildVoiceState selfVoiceState = selfMember.getVoiceState();
 
         if(!selfVoiceState.inVoiceChannel()){
-            channel.sendMessage("Je dois être dans un salon vocal !").queue();
+            channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Je dois être dans un salon vocal !").build()).queue();
             return;
         }
 
         final Member member = event.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
         if(!memberVoiceState.inVoiceChannel()){
-            channel.sendMessage("Tu dois être dans un salon vocal !").queue();
+            channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Tu dois être dans un salon vocal !").build()).queue();
             return;
         }
 
         if(!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())){
-            channel.sendMessage("Je dois être dans le même salon que toi !").queue();
+            channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Je dois être dans le même salon que toi !").build()).queue();
             return;
         }
 
         final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(event.getGuild());
         final boolean newRepeating = !musicManager.scheduler.repeating;
         musicManager.scheduler.repeating = newRepeating;
-
-        channel.sendMessageFormat("Le bot passe en mode **%s** !", newRepeating ? "répétition de la musique en cours" : "je continue la playlist");
+        final String mode = newRepeating ? "répétition de la musique en cours" : "je continue la playlist";
+        channel.sendMessage(EmbedUtils.createSuccessEmbed(event.getJDA(), "Le bot passe en mode **" + mode + "** !").build()).queue();
     }
 }
