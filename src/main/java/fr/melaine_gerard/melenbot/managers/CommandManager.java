@@ -1,9 +1,11 @@
 package fr.melaine_gerard.melenbot.managers;
 
 import fr.melaine_gerard.melenbot.commands.infos.BotinfoCommand;
+import fr.melaine_gerard.melenbot.commands.infos.ServerinfoCommand;
 import fr.melaine_gerard.melenbot.commands.mods.BanCommand;
 import fr.melaine_gerard.melenbot.commands.music.*;
 import fr.melaine_gerard.melenbot.commands.owner.EvalCommand;
+import fr.melaine_gerard.melenbot.commands.owner.GuildsCommand;
 import fr.melaine_gerard.melenbot.commands.utils.HelpCommand;
 import fr.melaine_gerard.melenbot.commands.utils.PingCommand;
 import fr.melaine_gerard.melenbot.commands.utils.PollCommand;
@@ -24,6 +26,7 @@ public class CommandManager {
     public CommandManager(){
         //Owner
         addCommand(new EvalCommand());
+        addCommand(new GuildsCommand());
 
         // Mods
         addCommand(new BanCommand());
@@ -46,6 +49,7 @@ public class CommandManager {
 
         // Infos
         addCommand(new BotinfoCommand(this));
+        addCommand(new ServerinfoCommand());
     }
 
     private void addCommand(ICommand command) {
