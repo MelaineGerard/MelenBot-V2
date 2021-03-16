@@ -1,5 +1,6 @@
 package fr.melaine_gerard.melenbot.commands.infos;
 
+import fr.melaine_gerard.melenbot.enumerations.Category;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.managers.CommandManager;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
@@ -54,5 +55,10 @@ public class BotinfoCommand implements ICommand {
 
 
         event.getChannel().sendMessage(eb.build()).queue();
+    }
+
+    @Override
+    public Category getCategory() {
+        return Category.INFOS;
     }
 }
