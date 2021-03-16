@@ -2,6 +2,7 @@ package fr.melaine_gerard.melenbot.managers;
 
 import fr.melaine_gerard.melenbot.commands.infos.BotinfoCommand;
 import fr.melaine_gerard.melenbot.commands.infos.ServerinfoCommand;
+import fr.melaine_gerard.melenbot.commands.infos.UserinfoCommand;
 import fr.melaine_gerard.melenbot.commands.mods.BanCommand;
 import fr.melaine_gerard.melenbot.commands.music.*;
 import fr.melaine_gerard.melenbot.commands.owner.EvalCommand;
@@ -23,7 +24,7 @@ public class CommandManager {
 
     private final Map<String, ICommand> commands = new HashMap<>();
 
-    public CommandManager(){
+    public CommandManager() {
         //Owner
         addCommand(new EvalCommand());
         addCommand(new GuildsCommand());
@@ -50,10 +51,11 @@ public class CommandManager {
         // Infos
         addCommand(new BotinfoCommand(this));
         addCommand(new ServerinfoCommand());
+        addCommand(new UserinfoCommand());
     }
 
     private void addCommand(ICommand command) {
-        if (!commands.containsKey(command.getName())){
+        if (!commands.containsKey(command.getName())) {
             commands.put(command.getName(), command);
         }
     }
@@ -69,11 +71,11 @@ public class CommandManager {
         if (commands.containsKey(invoke)) {
             final List<String> args = Arrays.asList(split).subList(1, split.length);
             ICommand cmd = commands.get(invoke);
-            if (cmd.isOwnerCommand() && !event.getAuthor().getId().equals(Constants.OWNER_ID)){
+            if (cmd.isOwnerCommand() && !event.getAuthor().getId().equals(Constants.OWNER_ID)) {
                 event.getChannel().sendMessage("This is an owner command !").queue();
                 return;
             }
-            if(!event.getMember().hasPermission(cmd.permissionsNeeded())){
+            if (!event.getMember().hasPermission(cmd.permissionsNeeded())) {
                 event.getChannel().sendMessage("You don't have permission to do that !").queue();
                 return;
             }
