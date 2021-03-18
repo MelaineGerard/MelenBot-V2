@@ -14,7 +14,9 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,11 +37,14 @@ public class BotinfoCommand implements ICommand {
         final RuntimeMXBean rb = ManagementFactory.getRuntimeMXBean();
         final JDA jda = event.getJDA();
         final SelfUser bot = jda.getSelfUser();
+        OffsetDateTime dateTime = bot.getTimeCreated();
+        String date = String.format("Le %s %d %s %d à %d:%d", dateTime.getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("FR", "fr")), dateTime.getDayOfMonth(), dateTime.getMonth().getDisplayName(TextStyle.FULL, new Locale("FR", "fr")), dateTime.getYear(), dateTime.getHour(), dateTime.getMinute());
+
         EmbedBuilder eb = EmbedUtils.createEmbed(jda)
                 .setTitle("Information sur moi :")
                 .addField("Tag :", bot.getAsTag(), false)
                 .addField("Uptime :", FunctionsUtils.getDurationBreakdown(rb.getUptime()), false)
-                .addField("Date de création :", bot.getTimeCreated().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME.localizedBy(Locale.FRANCE)), false)
+                .addField("Date de création :", date, false)
                 .addField("Guildes :", String.valueOf(jda.getGuilds().size()), false);
         int users = 0;
         for (Guild g : jda.getGuilds())

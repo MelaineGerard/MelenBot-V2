@@ -9,7 +9,8 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.time.format.DateTimeFormatter;
+import java.time.OffsetDateTime;
+import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,11 +31,16 @@ public class UserinfoCommand implements ICommand {
             event.getChannel().sendMessage("Merci de mentionner un membre !").queue();
             return;
         }
+        OffsetDateTime creationDateTime = member.getTimeCreated();
+        String creation_date = String.format("Le %s %d %s %d à %d:%d", creationDateTime.getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("FR", "fr")), creationDateTime.getDayOfMonth(), creationDateTime.getMonth().getDisplayName(TextStyle.FULL, new Locale("FR", "fr")), creationDateTime.getYear(), creationDateTime.getHour(), creationDateTime.getMinute());
+        OffsetDateTime joinedDateTime = member.getTimeJoined();
+        String joined_date = String.format("Le %s %d %s %d à %d:%d", joinedDateTime.getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("FR", "fr")), joinedDateTime.getDayOfMonth(), joinedDateTime.getMonth().getDisplayName(TextStyle.FULL, new Locale("FR", "fr")), joinedDateTime.getYear(), joinedDateTime.getHour(), joinedDateTime.getMinute());
+
         EmbedBuilder eb = EmbedUtils.createEmbed(event.getJDA());
         eb.setTitle("Quelques informations sur " + member.getUser().getName())
             .addField("Tag :",member.getUser().getAsTag(), false)
-            .addField("Date de création :", member.getTimeCreated().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME.localizedBy(Locale.FRANCE).withLocale(Locale.FRANCE)), false)
-            .addField("Date d'arrivée :", member.getTimeJoined().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME.localizedBy(Locale.FRANCE).withLocale(Locale.FRANCE)), false);
+            .addField("Date de création :", creation_date, false)
+            .addField("Date d'arrivée :", joined_date, false);
         StringBuilder sb = new StringBuilder();
         for (Role role : member.getRoles()){
             sb.append(role.getAsMention()).append(", ");
