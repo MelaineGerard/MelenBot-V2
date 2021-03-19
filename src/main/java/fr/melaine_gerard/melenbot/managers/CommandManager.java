@@ -5,6 +5,7 @@ import fr.melaine_gerard.melenbot.commands.infos.ServerinfoCommand;
 import fr.melaine_gerard.melenbot.commands.infos.UserinfoCommand;
 import fr.melaine_gerard.melenbot.commands.mods.BanCommand;
 import fr.melaine_gerard.melenbot.commands.mods.KickCommand;
+import fr.melaine_gerard.melenbot.commands.mods.MuteCommand;
 import fr.melaine_gerard.melenbot.commands.music.*;
 import fr.melaine_gerard.melenbot.commands.owner.EvalCommand;
 import fr.melaine_gerard.melenbot.commands.owner.GuildsCommand;
@@ -33,6 +34,7 @@ public class CommandManager {
         // Mods
         addCommand(new BanCommand());
         addCommand(new KickCommand());
+        addCommand(new MuteCommand());
 
         // Utils
         addCommand(new PollCommand());
@@ -77,7 +79,7 @@ public class CommandManager {
                 event.getChannel().sendMessage("This is an owner command !").queue();
                 return;
             }
-            if (!event.getMember().hasPermission(cmd.permissionsNeeded())) {
+            if (!Objects.requireNonNull(event.getMember()).hasPermission(cmd.permissionsNeeded())) {
                 event.getChannel().sendMessage("You don't have permission to do that !").queue();
                 return;
             }

@@ -3,9 +3,12 @@ package fr.melaine_gerard.melenbot.commands.mods;
 import fr.melaine_gerard.melenbot.enumerations.Category;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -53,5 +56,10 @@ public class KickCommand implements ICommand {
     @Override
     public String getUsage() {
         return "<@membre> [raison]";
+    }
+
+    @Override
+    public Collection<Permission> permissionsNeeded() {
+        return Collections.singletonList(Permission.KICK_MEMBERS);
     }
 }
