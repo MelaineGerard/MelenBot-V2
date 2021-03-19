@@ -20,7 +20,6 @@ public class GuildMessageReceivedListeners extends ListenerAdapter {
         String temp = DatabaseUtils.getPrefix(event.getGuild().getId());
         String prefix = temp != null ? temp : Constants.PREFIX;
         if (event.getMessage().getContentRaw().startsWith(prefix)) {
-            event.getChannel().sendTyping().queue();
             commandManager.handleCommand(event);
         }
     }

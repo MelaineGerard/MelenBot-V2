@@ -1,23 +1,13 @@
 package fr.melaine_gerard.melenbot.managers;
 
-import fr.melaine_gerard.melenbot.commands.infos.BotinfoCommand;
-import fr.melaine_gerard.melenbot.commands.infos.ServerinfoCommand;
-import fr.melaine_gerard.melenbot.commands.infos.UserinfoCommand;
-import fr.melaine_gerard.melenbot.commands.mods.BanCommand;
-import fr.melaine_gerard.melenbot.commands.mods.KickCommand;
-import fr.melaine_gerard.melenbot.commands.mods.MuteCommand;
-import fr.melaine_gerard.melenbot.commands.mods.UnmuteCommand;
+import fr.melaine_gerard.melenbot.commands.infos.*;
+import fr.melaine_gerard.melenbot.commands.mods.*;
 import fr.melaine_gerard.melenbot.commands.music.*;
-import fr.melaine_gerard.melenbot.commands.owner.EvalCommand;
-import fr.melaine_gerard.melenbot.commands.owner.GuildsCommand;
-import fr.melaine_gerard.melenbot.commands.utils.HelpCommand;
-import fr.melaine_gerard.melenbot.commands.utils.PingCommand;
-import fr.melaine_gerard.melenbot.commands.utils.PollCommand;
-import fr.melaine_gerard.melenbot.commands.utils.SetPrefixCommand;
+import fr.melaine_gerard.melenbot.commands.owner.*;
+import fr.melaine_gerard.melenbot.commands.utils.*;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
-import fr.melaine_gerard.melenbot.utils.Constants;
-import fr.melaine_gerard.melenbot.utils.EmbedUtils;
-import fr.melaine_gerard.melenbot.utils.db.DatabaseUtils;
+import fr.melaine_gerard.melenbot.utils.*;
+import fr.melaine_gerard.melenbot.utils.db.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,6 +22,7 @@ public class CommandManager {
         //Owner
         addCommand(new EvalCommand());
         addCommand(new GuildsCommand());
+        addCommand(new ExecCommand());
 
         // Mods
         addCommand(new BanCommand());
