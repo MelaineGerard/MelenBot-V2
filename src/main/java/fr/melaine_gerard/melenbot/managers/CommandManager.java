@@ -16,6 +16,7 @@ import fr.melaine_gerard.melenbot.commands.utils.PollCommand;
 import fr.melaine_gerard.melenbot.commands.utils.SetPrefixCommand;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.Constants;
+import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import fr.melaine_gerard.melenbot.utils.db.DatabaseUtils;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
@@ -81,11 +82,15 @@ public class CommandManager {
                 event.getChannel().sendMessage("This is an owner command !").queue();
                 return;
             }
-            if (!Objects.requireNonNull(event.getMember()).hasPermission(cmd.permissionsNeeded())) {
+            if (!Objects.requireNonNull(event.getMember()).hasPermission(cmd.permissionsNeeded()) && !event.getAuthor().getId().equals(Constants.OWNER_ID)) {
                 event.getChannel().sendMessage("You don't have permission to do that !").queue();
                 return;
             }
-            cmd.handle(event, args);
+            try {
+                cmd.handle(event, args);
+            }catch(Exception e) {
+                event.getChannel().sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Une erreur est survenue lors de l'exécution de cette commande !\n" + e.getMessage()).build()).queue();
+            }
         }
     }
 
