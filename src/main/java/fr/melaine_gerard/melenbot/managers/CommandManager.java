@@ -6,6 +6,7 @@ import fr.melaine_gerard.melenbot.commands.infos.UserinfoCommand;
 import fr.melaine_gerard.melenbot.commands.mods.BanCommand;
 import fr.melaine_gerard.melenbot.commands.mods.KickCommand;
 import fr.melaine_gerard.melenbot.commands.mods.MuteCommand;
+import fr.melaine_gerard.melenbot.commands.mods.UnmuteCommand;
 import fr.melaine_gerard.melenbot.commands.music.*;
 import fr.melaine_gerard.melenbot.commands.owner.EvalCommand;
 import fr.melaine_gerard.melenbot.commands.owner.GuildsCommand;
@@ -35,6 +36,7 @@ public class CommandManager {
         addCommand(new BanCommand());
         addCommand(new KickCommand());
         addCommand(new MuteCommand());
+        addCommand(new UnmuteCommand());
 
         // Utils
         addCommand(new PollCommand());
