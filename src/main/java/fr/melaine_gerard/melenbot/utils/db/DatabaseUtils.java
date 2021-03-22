@@ -67,4 +67,29 @@ public class DatabaseUtils {
         }
     }
 
+    public static String getWelcomeMessage(String guildId){
+        try {
+            PreparedStatement statement = melenConnection.prepareStatement("SELECT `welcomeMessage` FROM `guild` WHERE guildId = ?;");
+            statement.setString(1, guildId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next())
+                return rs.getString(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static String getWelcomeChannel(String guildId){
+        try {
+            PreparedStatement statement = melenConnection.prepareStatement("SELECT `welcomeId` FROM `guild` WHERE guildId = ?;");
+            statement.setString(1, guildId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next())
+                return rs.getString(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

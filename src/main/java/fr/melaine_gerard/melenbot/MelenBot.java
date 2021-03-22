@@ -1,5 +1,6 @@
 package fr.melaine_gerard.melenbot;
 
+import fr.melaine_gerard.melenbot.listeners.GuildMemberJoinListeners;
 import fr.melaine_gerard.melenbot.listeners.GuildMessageReceivedListeners;
 import fr.melaine_gerard.melenbot.managers.DatabaseManager;
 import fr.melaine_gerard.melenbot.utils.db.DatabaseUtils;
@@ -8,6 +9,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.simpleyaml.configuration.file.YamlFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,8 +36,8 @@ public class MelenBot {
 
     private static JDA loadJda() {
         try {
-            JDABuilder jdaBuilder = JDABuilder.createDefault(getConfig().getString("token", "token"));
-            jdaBuilder.setActivity(Activity.streaming("SkitDev", "https://twitch.tv/SkitDev"));
+            JDABuilder jdaBuilder = JDABuilder.create(getConfig().getString("token", "token"), GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS));
+            jdaBuilder.setActivity(Activity.streaming("MelenBot V2.0", "https://twitch.tv/SkitDev"));
             return jdaBuilder.build().awaitReady();
         } catch (InterruptedException | LoginException e) {
             getLogger().error("Couldn't start the bot !");
@@ -64,6 +66,7 @@ public class MelenBot {
 
     private static void registerListeners(JDA jda){
         jda.addEventListener(new GuildMessageReceivedListeners());
+        jda.addEventListener(new GuildMemberJoinListeners());
     }
 
     public static DatabaseManager getDatabaseManager() {
