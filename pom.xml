@@ -65,7 +65,7 @@
     </properties>
 
     <build>
-        <finalName>${artifactId}</finalName>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
 
             <!-- download source code in Eclipse, best practice -->
@@ -105,7 +105,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>${groupId}.melenbot.${artifactId}</mainClass>
+                                    <mainClass>${project.groupId}.melenbot.${project.artifactId}</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
