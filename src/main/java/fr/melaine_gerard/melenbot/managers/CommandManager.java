@@ -45,6 +45,7 @@ public class CommandManager {
         addCommand(new QueueCommand());
         addCommand(new RepeatCommand());
         addCommand(new LeaveCommand());
+        addCommand(new VolumeCommand());
 
         // Infos
         addCommand(new BotinfoCommand(this));
