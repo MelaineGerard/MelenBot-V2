@@ -63,16 +63,28 @@ public class PlayerManager {
             @Override
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
                 final List<AudioTrack> tracks = audioPlaylist.getTracks();
-                channel.sendMessage("Ajout dans la file d'attente : `")
-                        .append(String.valueOf(tracks.size()))
-                        .append("` musiques de la playlist `")
-                        .append(audioPlaylist.getName())
-                        .append("`")
-                        .queue();
+                if (audioPlaylist.getName().startsWith("Search results for: ")){
+                    AudioTrack audioTrack = tracks.get(0);
+                    musicManager.scheduler.queue(audioTrack);
+                    channel.sendMessage("Ajout dans la file d'attente : `")
+                            .append(audioTrack.getInfo().title)
+                            .append("` by `")
+                            .append(audioTrack.getInfo().author)
+                            .append("`")
+                            .queue();
+                }else {
+                    channel.sendMessage("Ajout dans la file d'attente : `")
+                            .append(String.valueOf(tracks.size()))
+                            .append("` musiques de la playlist `")
+                            .append(audioPlaylist.getName())
+                            .append("`")
+                            .queue();
 
-                for (final AudioTrack track : tracks){
-                    musicManager.scheduler.queue(track);
+                    for (final AudioTrack track : tracks){
+                        musicManager.scheduler.queue(track);
+                    }
                 }
+
             }
 
             @Override

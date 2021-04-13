@@ -1,5 +1,11 @@
 package fr.melaine_gerard.melenbot.commands.music;
 
+import com.wrapper.spotify.SpotifyApi;
+import com.wrapper.spotify.model_objects.credentials.ClientCredentials;
+import com.wrapper.spotify.model_objects.specification.Track;
+import com.wrapper.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
+import com.wrapper.spotify.requests.data.tracks.GetTrackRequest;
+import fr.melaine_gerard.melenbot.MelenBot;
 import fr.melaine_gerard.melenbot.enumerations.Category;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
@@ -35,28 +41,46 @@ public class PlayCommand implements ICommand {
             channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Merci d'indiquer le lien d'une vidéo youtube !").build()).queue();
             return;
         }
-
+        if (selfVoiceState == null) return;
         if(!selfVoiceState.inVoiceChannel()){
             channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Je dois être dans un salon vocal !").build()).queue();
             return;
         }
 
         final Member member = event.getMember();
+        if (member == null)return;
         final GuildVoiceState memberVoiceState = member.getVoiceState();
+        if (memberVoiceState == null)return;
         if(!memberVoiceState.inVoiceChannel()){
             channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Tu dois être dans un salon vocal !").build()).queue();
             return;
         }
-
+        if (memberVoiceState.getChannel() == null)return;
         if(!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())){
             channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Je dois être dans le même salon que toi !").build()).queue();
             return;
         }
 
         String link = String.join(" ", args);
-
         if(!isUrl(link)){
             link = "ytsearch:" + link;
+        }else if (link.contains("spotify.com")){
+            try {
+                SpotifyApi spotifyApi = new SpotifyApi.Builder()
+                        .setClientId(MelenBot.getConfig().getString("spotify.id"))
+                        .setClientSecret(MelenBot.getConfig().getString("spotify.secret"))
+                        .build();
+                ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials()
+                        .build();
+                final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
+                spotifyApi.setAccessToken(clientCredentials.getAccessToken());
+                String spotifyTrackId = link.replace("https://open.spotify.com/track/", "").split("si=")[0].replace("?", "");
+                GetTrackRequest getTrackRequest = spotifyApi.getTrack(spotifyTrackId).build();
+                Track track = getTrackRequest.execute();
+                link = "ytsearch:" + track.getName() + " - " + track.getArtists()[0].getName();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         PlayerManager.getInstance().loadAndPlay(channel, link);

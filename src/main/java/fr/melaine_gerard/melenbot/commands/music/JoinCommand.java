@@ -28,15 +28,16 @@ public class JoinCommand implements ICommand {
         final TextChannel channel = event.getChannel();
         Member selfMember = event.getGuild().getSelfMember();
         GuildVoiceState selfMemberVoiceState = selfMember.getVoiceState();
-
+        if(selfMemberVoiceState == null) return;
         if (selfMemberVoiceState.inVoiceChannel()){
             channel.sendMessage("Je suis déjà dans un salon vocal !").queue();
             return;
         }
 
         Member member = event.getMember();
+        if(member == null) return;
         GuildVoiceState memberVoiceState = member.getVoiceState();
-
+        if (memberVoiceState == null)return;
         if (!memberVoiceState.inVoiceChannel()){
             channel.sendMessage("Tu dois être dans un salon vocal !").queue();
             return;

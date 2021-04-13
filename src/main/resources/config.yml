@@ -7,3 +7,6 @@ mysql:
   database: melen
   host: localhost
   port: 3306
+spotify:
+  id: clientId
+  secret: clientSecret
