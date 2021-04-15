@@ -46,6 +46,7 @@ public class CommandManager {
         addCommand(new RepeatCommand());
         addCommand(new LeaveCommand());
         addCommand(new VolumeCommand());
+        addCommand(new ShuffleCommand());
 
         // Infos
         addCommand(new BotinfoCommand(this));
