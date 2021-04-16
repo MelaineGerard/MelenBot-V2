@@ -32,7 +32,7 @@ public class SetWelcomeCommand implements ICommand{
         .replaceAll("%tag%", event.getAuthor().getAsTag())
         .replaceAll("%guild%", event.getGuild().getName())
         .replaceAll("\\|", System.lineSeparator());
-        event.getChannel().sendMessage(EmbedUtils.createSuccessEmbed(event.getJDA(), message).build()).queue();
+        event.getChannel().sendMessage(EmbedUtils.createSuccessEmbed(event.getJDA(), "Le nouveau message de bienvenue est :\n" + message).build()).queue();
     }
 
     @Override
