@@ -6,13 +6,10 @@ import fr.melaine_gerard.melenbot.utils.db.DatabaseUtils;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GuildMessageReceivedListeners extends ListenerAdapter {
 
     private final CommandManager commandManager = new CommandManager();
-    private final Logger logger = LoggerFactory.getLogger(GuildMessageReceivedListeners.class);
 
 
     @Override
