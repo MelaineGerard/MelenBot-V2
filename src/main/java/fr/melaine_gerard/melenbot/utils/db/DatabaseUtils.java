@@ -92,4 +92,26 @@ public class DatabaseUtils {
         return null;
     }
 
+    public static void updateWelcomeChannel(String guildId, String channelId) {
+        try {
+            PreparedStatement statement = melenConnection.prepareStatement("UPDATE `guild` SET  `welcomeId` = ? WHERE `guildId` = ?;");
+            statement.setString(1, channelId);
+            statement.setString(2, guildId);
+            statement.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateWelcomeMessage(String guildId, String message) {
+        try {
+            PreparedStatement statement = melenConnection.prepareStatement("UPDATE `guild` SET  `welcomeMessage` = ? WHERE `guildId` = ?;");
+            statement.setString(1, message);
+            statement.setString(2, guildId);
+            statement.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
 }

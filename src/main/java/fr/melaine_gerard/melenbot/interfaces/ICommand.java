@@ -31,5 +31,9 @@ public interface ICommand {
         return Collections.emptyList();
     }
 
+    default boolean hasArgs(){
+        return false;
+    }
+
 
 }

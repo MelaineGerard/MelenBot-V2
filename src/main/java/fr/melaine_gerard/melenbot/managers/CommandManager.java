@@ -35,6 +35,8 @@ public class CommandManager {
         addCommand(new PingCommand());
         addCommand(new HelpCommand(this));
         addCommand(new SetPrefixCommand());
+        addCommand(new SetChannelCommand());
+        addCommand(new SetWelcomeCommand());
 
         // Music
         addCommand(new JoinCommand());
@@ -77,6 +79,11 @@ public class CommandManager {
             }
             if (!Objects.requireNonNull(event.getMember()).hasPermission(cmd.permissionsNeeded()) && !event.getAuthor().getId().equals(Constants.OWNER_ID)) {
                 event.getChannel().sendMessage("You don't have permission to do that !").queue();
+                return;
+            }
+
+            if (cmd.hasArgs() && args.size() == 0) {
+                event.getChannel().sendMessage("Please indicate needed arguments !").queue();
                 return;
             }
             try {
