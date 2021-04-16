@@ -37,6 +37,7 @@ public class CommandManager {
         addCommand(new SetPrefixCommand());
         addCommand(new SetChannelCommand());
         addCommand(new SetWelcomeCommand());
+        addCommand(new SuggestionCommand());
 
         // Music
         addCommand(new JoinCommand());

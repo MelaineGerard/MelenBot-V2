@@ -38,4 +38,9 @@ public class SetPrefixCommand implements ICommand {
     public Category getCategory() {
         return Category.UTILS;
     }
+
+    @Override
+    public String getUsage() {
+        return "<prefix>";
+    }
 }

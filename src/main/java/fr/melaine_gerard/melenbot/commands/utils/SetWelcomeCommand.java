@@ -49,5 +49,10 @@ public class SetWelcomeCommand implements ICommand{
     public boolean hasArgs() {
         return true;
     }
+
+    @Override
+    public String getUsage() {
+        return "<message>";
+    }
     
 }

@@ -47,9 +47,12 @@ public class SetChannelCommand implements ICommand {
         }
         TextChannel channel = event.getMessage().getMentionedChannels().get(0);
         if(chanType == ChanType.LOGS){
-
+            DatabaseUtils.updateLogsChannel(event.getGuild().getId(), channel.getId());
+            event.getChannel().sendMessage(EmbedUtils.createSuccessEmbed(event.getJDA(), "Le nouveau salon des logs est " + channel.getAsMention()).build()).queue();
         }else if (chanType == ChanType.SUGGESTIONS){
-
+            DatabaseUtils.updateSuggestionsChannel(event.getGuild().getId(), channel.getId());
+            event.getChannel().sendMessage(EmbedUtils.createSuccessEmbed(event.getJDA(), "Le nouveau salon des suggestions est " + channel.getAsMention()).build()).queue();
+        
         } else {
             DatabaseUtils.updateWelcomeChannel(event.getGuild().getId(), channel.getId());
             event.getChannel().sendMessage(EmbedUtils.createSuccessEmbed(event.getJDA(), "Le nouveau salon de bienvenue est " + channel.getAsMention()).build()).queue();
@@ -70,6 +73,11 @@ public class SetChannelCommand implements ICommand {
     @Override
     public boolean hasArgs() {
         return true;
+    }
+
+    @Override
+    public String getUsage() {
+        return "<type> <#channel>";
     }
     
 }

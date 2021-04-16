@@ -92,9 +92,57 @@ public class DatabaseUtils {
         return null;
     }
 
+    public static String getSuggestionsChannel(String guildId){
+        try {
+            PreparedStatement statement = melenConnection.prepareStatement("SELECT `suggestionsId` FROM `guild` WHERE guildId = ?;");
+            statement.setString(1, guildId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next())
+                return rs.getString(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getLogsChannel(String guildId){
+        try {
+            PreparedStatement statement = melenConnection.prepareStatement("SELECT `logsId` FROM `guild` WHERE guildId = ?;");
+            statement.setString(1, guildId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next())
+                return rs.getString(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static void updateWelcomeChannel(String guildId, String channelId) {
         try {
             PreparedStatement statement = melenConnection.prepareStatement("UPDATE `guild` SET  `welcomeId` = ? WHERE `guildId` = ?;");
+            statement.setString(1, channelId);
+            statement.setString(2, guildId);
+            statement.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateLogsChannel(String guildId, String channelId) {
+        try {
+            PreparedStatement statement = melenConnection.prepareStatement("UPDATE `guild` SET  `logsId` = ? WHERE `guildId` = ?;");
+            statement.setString(1, channelId);
+            statement.setString(2, guildId);
+            statement.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateSuggestionsChannel(String guildId, String channelId) {
+        try {
+            PreparedStatement statement = melenConnection.prepareStatement("UPDATE `guild` SET  `suggestionsId` = ? WHERE `guildId` = ?;");
             statement.setString(1, channelId);
             statement.setString(2, guildId);
             statement.executeUpdate();
