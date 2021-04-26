@@ -9,7 +9,6 @@ import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.*;
 import fr.melaine_gerard.melenbot.utils.db.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -38,6 +37,7 @@ public class CommandManager {
         addCommand(new SetChannelCommand());
         addCommand(new SetWelcomeCommand());
         addCommand(new SuggestionCommand());
+        addCommand(new StackOverflowCommand());
 
         // Music
         addCommand(new JoinCommand());
@@ -99,7 +99,7 @@ public class CommandManager {
         return commands.values();
     }
 
-    public ICommand getCommand(@NotNull String name) {
+    public ICommand getCommand(String name) {
         return commands.get(name);
     }
 }

@@ -10,3 +10,5 @@ mysql:
 spotify:
   id: clientId
   secret: clientSecret
+stackoverflow:
+  key: stackoverflowKey
