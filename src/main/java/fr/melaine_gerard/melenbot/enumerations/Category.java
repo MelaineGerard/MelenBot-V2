@@ -7,6 +7,7 @@ public enum Category {
     FUN("Fun"),
     GAME("Jeu"),
     MODS("Modération"),
+    TICKET("Ticket"),
     OWNER("Owner"),
     OTHER("Autre");
 
