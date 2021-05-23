@@ -4,8 +4,6 @@ import fr.melaine_gerard.melenbot.commands.infos.*;
 import fr.melaine_gerard.melenbot.commands.mods.*;
 import fr.melaine_gerard.melenbot.commands.music.*;
 import fr.melaine_gerard.melenbot.commands.owner.*;
-import fr.melaine_gerard.melenbot.commands.tickets.CloseCommand;
-import fr.melaine_gerard.melenbot.commands.tickets.TicketCommand;
 import fr.melaine_gerard.melenbot.commands.utils.*;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.*;
