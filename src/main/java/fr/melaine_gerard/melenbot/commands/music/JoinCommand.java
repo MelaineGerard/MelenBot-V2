@@ -1,6 +1,6 @@
 package fr.melaine_gerard.melenbot.commands.music;
 
-import fr.melaine_gerard.melenbot.enumerations.Category;
+import fr.melaine_gerard.melenbot.enumerations.CommandCategory;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -19,8 +19,8 @@ public class JoinCommand implements ICommand {
     }
 
     @Override
-    public Category getCategory() {
-        return Category.MUSIC;
+    public CommandCategory getCategory() {
+        return CommandCategory.MUSIC;
     }
 
     @Override

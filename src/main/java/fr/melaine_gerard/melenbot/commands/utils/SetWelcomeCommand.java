@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import fr.melaine_gerard.melenbot.enumerations.Category;
+import fr.melaine_gerard.melenbot.enumerations.CommandCategory;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import fr.melaine_gerard.melenbot.utils.db.DatabaseUtils;
@@ -41,8 +41,8 @@ public class SetWelcomeCommand implements ICommand{
     }
 
     @Override
-    public Category getCategory() {
-        return Category.UTILS;
+    public CommandCategory getCategory() {
+        return CommandCategory.UTILS;
     }
 
     @Override

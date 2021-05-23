@@ -1,6 +1,6 @@
 package fr.melaine_gerard.melenbot.interfaces;
 
-import fr.melaine_gerard.melenbot.enumerations.Category;
+import fr.melaine_gerard.melenbot.enumerations.CommandCategory;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -17,8 +17,8 @@ public interface ICommand {
         return "";
     }
 
-    default Category getCategory(){
-        return Category.OTHER;
+    default CommandCategory getCategory(){
+        return CommandCategory.OTHER;
     }
 
     void handle(GuildMessageReceivedEvent event, List<String> args);

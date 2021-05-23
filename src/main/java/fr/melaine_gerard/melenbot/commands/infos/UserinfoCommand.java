@@ -1,6 +1,6 @@
 package fr.melaine_gerard.melenbot.commands.infos;
 
-import fr.melaine_gerard.melenbot.enumerations.Category;
+import fr.melaine_gerard.melenbot.enumerations.CommandCategory;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -58,8 +58,8 @@ public class UserinfoCommand implements ICommand {
     }
 
     @Override
-    public Category getCategory() {
-        return Category.INFOS;
+    public CommandCategory getCategory() {
+        return CommandCategory.INFOS;
     }
 
     @Override

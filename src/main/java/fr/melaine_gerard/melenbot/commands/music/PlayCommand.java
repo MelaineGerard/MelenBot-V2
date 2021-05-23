@@ -6,7 +6,7 @@ import com.wrapper.spotify.model_objects.specification.Track;
 import com.wrapper.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 import com.wrapper.spotify.requests.data.tracks.GetTrackRequest;
 import fr.melaine_gerard.melenbot.MelenBot;
-import fr.melaine_gerard.melenbot.enumerations.Category;
+import fr.melaine_gerard.melenbot.enumerations.CommandCategory;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import fr.melaine_gerard.melenbot.utils.lavaplayer.PlayerManager;
@@ -26,8 +26,8 @@ public class PlayCommand implements ICommand {
     }
 
     @Override
-    public Category getCategory() {
-        return Category.MUSIC;
+    public CommandCategory getCategory() {
+        return CommandCategory.MUSIC;
     }
 
     @Override

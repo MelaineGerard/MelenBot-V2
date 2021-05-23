@@ -1,6 +1,6 @@
 package fr.melaine_gerard.melenbot.commands.utils;
 
-import fr.melaine_gerard.melenbot.enumerations.Category;
+import fr.melaine_gerard.melenbot.enumerations.CommandCategory;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.db.DatabaseUtils;
 import net.dv8tion.jda.api.Permission;
@@ -35,8 +35,8 @@ public class SetPrefixCommand implements ICommand {
     }
 
     @Override
-    public Category getCategory() {
-        return Category.UTILS;
+    public CommandCategory getCategory() {
+        return CommandCategory.UTILS;
     }
 
     @Override

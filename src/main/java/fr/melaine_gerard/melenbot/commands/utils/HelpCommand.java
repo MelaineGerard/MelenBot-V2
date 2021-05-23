@@ -1,6 +1,6 @@
 package fr.melaine_gerard.melenbot.commands.utils;
 
-import fr.melaine_gerard.melenbot.enumerations.Category;
+import fr.melaine_gerard.melenbot.enumerations.CommandCategory;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.managers.CommandManager;
 import fr.melaine_gerard.melenbot.utils.Constants;
@@ -31,7 +31,7 @@ public class HelpCommand implements ICommand {
         if(args.isEmpty()){
             EmbedBuilder eb = EmbedUtils.createEmbed(event.getJDA());
             eb.setTitle("Liste de toutes mes commandes");
-            for (Category cat : Category.values()) {
+            for (CommandCategory cat : CommandCategory.values()) {
                 StringBuilder sb = new StringBuilder();
                 for (ICommand cmd : commandManager.getCommands()){
                     if(cat == cmd.getCategory() && (!cmd.isOwnerCommand() || Constants.OWNER_ID.equals(event.getAuthor().getId())))
@@ -64,7 +64,7 @@ public class HelpCommand implements ICommand {
     }
 
     @Override
-    public Category getCategory() {
-        return Category.UTILS;
+    public CommandCategory getCategory() {
+        return CommandCategory.UTILS;
     }
 }

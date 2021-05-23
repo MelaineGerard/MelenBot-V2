@@ -1,6 +1,6 @@
 package fr.melaine_gerard.melenbot.commands.music;
 
-import fr.melaine_gerard.melenbot.enumerations.Category;
+import fr.melaine_gerard.melenbot.enumerations.CommandCategory;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.lavaplayer.GuildMusicManager;
 import fr.melaine_gerard.melenbot.utils.lavaplayer.PlayerManager;
@@ -19,8 +19,8 @@ public class StopCommand implements ICommand {
     }
 
     @Override
-    public Category getCategory() {
-        return Category.MUSIC;
+    public CommandCategory getCategory() {
+        return CommandCategory.MUSIC;
     }
 
     @Override
