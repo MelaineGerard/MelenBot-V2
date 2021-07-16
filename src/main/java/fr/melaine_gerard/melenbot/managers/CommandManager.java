@@ -1,5 +1,6 @@
 package fr.melaine_gerard.melenbot.managers;
 
+import fr.melaine_gerard.melenbot.commands.fun.HugCommand;
 import fr.melaine_gerard.melenbot.commands.infos.*;
 import fr.melaine_gerard.melenbot.commands.mods.*;
 import fr.melaine_gerard.melenbot.commands.music.*;
@@ -55,6 +56,9 @@ public class CommandManager {
         addCommand(new BotinfoCommand(this));
         addCommand(new ServerinfoCommand());
         addCommand(new UserinfoCommand());
+
+        // Fun
+        addCommand(new HugCommand());
 
     }
 
