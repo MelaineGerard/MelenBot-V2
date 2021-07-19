@@ -4,6 +4,7 @@ import fr.melaine_gerard.melenbot.MelenBot;
 import fr.melaine_gerard.melenbot.enumerations.CommandCategory;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
+import fr.melaine_gerard.melenbot.utils.FunctionsUtils;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
@@ -38,18 +39,7 @@ public class HugCommand implements ICommand {
             }
             person = sb.toString();
         }
-        HttpResponse<JsonNode> response = Unirest.get("https://melenbot-api.melaine-gerard.fr/hug")
-                .header("accept", "application/json")
-                .asJson();
-        if(!response.getBody().getObject().has("image")){
-            event.getChannel().sendMessage("Aucun résultat trouvé !").queue();
-            return;
-        }
-        String imageUrl = response.getBody().getObject().getString("image");
-        if(imageUrl == null){
-            event.getChannel().sendMessage("Aucun résultat trouvé !").queue();
-            return;
-        }
+        String imageUrl = FunctionsUtils.getImageFromApi("https://melenbot-api.melaine-gerard.fr/hug", event.getChannel());
         event.getChannel().sendMessageEmbeds(EmbedUtils.createEmbed(event.getJDA()).setTitle(event.getAuthor().getName() + " fait un câlin à " + person).setImage(imageUrl).build()).queue();
     }
 

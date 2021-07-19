@@ -1,6 +1,7 @@
 package fr.melaine_gerard.melenbot.managers;
 
 import fr.melaine_gerard.melenbot.commands.fun.HugCommand;
+import fr.melaine_gerard.melenbot.commands.fun.PikachuCommand;
 import fr.melaine_gerard.melenbot.commands.infos.*;
 import fr.melaine_gerard.melenbot.commands.mods.*;
 import fr.melaine_gerard.melenbot.commands.music.*;
@@ -59,6 +60,7 @@ public class CommandManager {
 
         // Fun
         addCommand(new HugCommand());
+        addCommand(new PikachuCommand());
 
     }
 
