@@ -97,7 +97,7 @@ public class CommandManager {
             try {
                 cmd.handle(event, args);
             }catch(Exception e) {
-                event.getChannel().sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Une erreur est survenue lors de l'exécution de cette commande !\n" + e.getMessage()).build()).queue();
+                event.getChannel().sendMessageEmbeds(EmbedUtils.createErrorEmbed(event.getJDA(), "Une erreur est survenue lors de l'exécution de cette commande !\n" + e.getMessage()).build()).queue();
             }
         }
     }

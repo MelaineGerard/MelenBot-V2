@@ -31,7 +31,7 @@ public class FunctionsUtils {
     }
 
     public static String getImageFromApi(String link, TextChannel channel) {
-        HttpResponse<JsonNode> response = Unirest.get("https://melenbot-api.melaine-gerard.fr/pikachu")
+        HttpResponse<JsonNode> response = Unirest.get(link)
                 .header("accept", "application/json")
                 .asJson();
         if(!response.getBody().getObject().has("image")){
