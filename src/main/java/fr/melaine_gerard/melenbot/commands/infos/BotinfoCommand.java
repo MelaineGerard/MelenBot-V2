@@ -54,7 +54,7 @@ public class BotinfoCommand implements ICommand {
                 .addField("Lien d'invitation :", bot.getJDA().getInviteUrl(Permission.ADMINISTRATOR), false)
                 .addField("Faire un don :", "https://paypal.me/pools/c/8oaI7Zjbhv", false)
                 .addField("Discord :", "https://discord.gg/VmuVsce", false)
-                .addField("Code source :", "https://gitea.skitdev.icu/SkitDev/MelenBot-V2", false)
+                .addField("Code source :", "https://github.com/MelaineGerard/MelenBot-V2", false)
                 .addField("Site Web :", "Bientôt", false);
 
 
