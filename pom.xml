@@ -24,7 +24,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.3.0_286</version>
+            <version>4.3.0_307</version>
         </dependency>
         <dependency>
             <groupId>me.carleslc.Simple-YAML</groupId>
@@ -34,7 +34,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
+            <version>1.2.5</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
@@ -59,7 +59,7 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>3.11.11</version>
+            <version>3.11.12</version>
         </dependency>
     </dependencies>
 

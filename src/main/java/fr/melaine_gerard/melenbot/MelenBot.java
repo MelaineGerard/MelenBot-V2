@@ -2,6 +2,7 @@ package fr.melaine_gerard.melenbot;
 
 import fr.melaine_gerard.melenbot.listeners.GuildMemberJoinListeners;
 import fr.melaine_gerard.melenbot.listeners.GuildMessageReceivedListeners;
+import fr.melaine_gerard.melenbot.listeners.SlashCommandListener;
 import fr.melaine_gerard.melenbot.managers.DatabaseManager;
 import fr.melaine_gerard.melenbot.utils.FileUtils;
 import fr.melaine_gerard.melenbot.utils.db.DatabaseUtils;
@@ -50,9 +51,9 @@ public class MelenBot {
         return null;
     }
 
-    private static void initializeDatabase(JDA jda){
+    private static void initializeDatabase(JDA jda) {
         DatabaseUtils.createGuildTable();
-        for (Guild guild : jda.getGuilds()){
+        for (Guild guild : jda.getGuilds()) {
             if (!DatabaseUtils.isGuildExists(guild.getId()))
                 DatabaseUtils.createGuild(guild.getId());
         }
@@ -64,9 +65,10 @@ public class MelenBot {
         return LoggerFactory.getLogger(MelenBot.class);
     }
 
-    private static void registerListeners(JDA jda){
+    private static void registerListeners(JDA jda) {
         jda.addEventListener(new GuildMessageReceivedListeners());
         jda.addEventListener(new GuildMemberJoinListeners());
+        jda.addEventListener(new SlashCommandListener(jda));
     }
 
     public static DatabaseManager getDatabaseManager() {
