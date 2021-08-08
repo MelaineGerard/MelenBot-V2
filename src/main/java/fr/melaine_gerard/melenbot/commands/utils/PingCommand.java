@@ -24,7 +24,7 @@ public class PingCommand implements ICommand {
                 .setTitle("Pong !")
                 .addField("Gateway Ping : ", String.format("%dms", event.getJDA().getGatewayPing()), false)
                 .addField("Rest Ping : ", String.format("%sms", event.getJDA().getRestPing().complete()), false);
-        msg.editMessage(eb.build()).queue();
+        msg.editMessageEmbeds(eb.build()).queue();
     }
 
     @Override
