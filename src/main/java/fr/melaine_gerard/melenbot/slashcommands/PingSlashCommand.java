@@ -14,7 +14,6 @@ public class PingSlashCommand implements ISlashCommand {
 
     @Override
     public void handle(SlashCommandEvent event) {
-        long time = System.currentTimeMillis();
         InteractionHook interactionHook = event.reply("Pong!").setEphemeral(false).complete();
         EmbedBuilder eb = EmbedUtils.createEmbed(event.getJDA())
                 .setTitle("Pong !")
