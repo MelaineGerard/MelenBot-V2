@@ -1,4 +1,4 @@
-package fr.melaine_gerard.melenbot.slashcommands;
+package fr.melaine_gerard.melenbot.slashcommands.utils;
 
 import fr.melaine_gerard.melenbot.interfaces.ISlashCommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;

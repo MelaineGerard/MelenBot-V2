@@ -1,7 +1,8 @@
 package fr.melaine_gerard.melenbot.managers;
 
 import fr.melaine_gerard.melenbot.interfaces.ISlashCommand;
-import fr.melaine_gerard.melenbot.slashcommands.PingSlashCommand;
+import fr.melaine_gerard.melenbot.slashcommands.fun.HugSlashCommand;
+import fr.melaine_gerard.melenbot.slashcommands.utils.PingSlashCommand;
 import fr.melaine_gerard.melenbot.utils.Constants;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import net.dv8tion.jda.api.JDA;
@@ -17,6 +18,7 @@ public class SlashCommandManager {
 
     public SlashCommandManager() {
         addSlashCommand(new PingSlashCommand());
+        addSlashCommand(new HugSlashCommand());
     }
 
     private void addSlashCommand(ISlashCommand slashCommand) {

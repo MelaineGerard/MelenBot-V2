@@ -11,7 +11,7 @@ import java.util.List;
 public class HugCommand implements ICommand {
     @Override
     public String getDescription() {
-        return "Permet e faire un calin à quelqu'un";
+        return "Permet de faire un calin à quelqu'un";
     }
 
     @Override
