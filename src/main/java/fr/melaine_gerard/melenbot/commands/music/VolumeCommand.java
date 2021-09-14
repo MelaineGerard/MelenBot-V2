@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.util.Collections;
 import java.util.List;
 
 public class VolumeCommand implements ICommand {
@@ -68,5 +69,10 @@ public class VolumeCommand implements ICommand {
         musicManager.audioPlayer.setVolume(volume);
         channel.sendMessage("Passage du volume à " + volume + "%...").queue();
 
+    }
+
+    @Override
+    public List<String> aliases() {
+        return Collections.singletonList("vol");
     }
 }

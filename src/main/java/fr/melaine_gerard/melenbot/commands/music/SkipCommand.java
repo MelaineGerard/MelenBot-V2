@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import java.util.Collections;
 import java.util.List;
 
 public class SkipCommand implements ICommand {
@@ -56,5 +57,11 @@ public class SkipCommand implements ICommand {
         musicManager.scheduler.nextTrack();
         channel.sendMessage("Passage à la musique suivante...").queue();
 
+    }
+
+
+    @Override
+    public List<String> aliases() {
+        return Collections.singletonList("s");
     }
 }

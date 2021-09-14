@@ -2,14 +2,22 @@ package fr.melaine_gerard.melenbot.managers;
 
 import fr.melaine_gerard.melenbot.commands.fun.HugCommand;
 import fr.melaine_gerard.melenbot.commands.fun.PikachuCommand;
-import fr.melaine_gerard.melenbot.commands.infos.*;
-import fr.melaine_gerard.melenbot.commands.mods.*;
+import fr.melaine_gerard.melenbot.commands.infos.BotinfoCommand;
+import fr.melaine_gerard.melenbot.commands.infos.ServerinfoCommand;
+import fr.melaine_gerard.melenbot.commands.infos.UserinfoCommand;
+import fr.melaine_gerard.melenbot.commands.mods.BanCommand;
+import fr.melaine_gerard.melenbot.commands.mods.KickCommand;
+import fr.melaine_gerard.melenbot.commands.mods.MuteCommand;
+import fr.melaine_gerard.melenbot.commands.mods.UnmuteCommand;
 import fr.melaine_gerard.melenbot.commands.music.*;
-import fr.melaine_gerard.melenbot.commands.owner.*;
+import fr.melaine_gerard.melenbot.commands.owner.EvalCommand;
+import fr.melaine_gerard.melenbot.commands.owner.ExecCommand;
+import fr.melaine_gerard.melenbot.commands.owner.GuildsCommand;
 import fr.melaine_gerard.melenbot.commands.utils.*;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
-import fr.melaine_gerard.melenbot.utils.*;
-import fr.melaine_gerard.melenbot.utils.db.*;
+import fr.melaine_gerard.melenbot.utils.Constants;
+import fr.melaine_gerard.melenbot.utils.EmbedUtils;
+import fr.melaine_gerard.melenbot.utils.db.DatabaseUtils;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.*;
@@ -77,28 +85,32 @@ public class CommandManager {
         final String[] split = event.getMessage().getContentRaw().replaceFirst("(?i)" + Pattern.quote(prefix), "").split("\\s+");
         final String invoke = split[0].toLowerCase();
 
+        final ICommand[] cmd = {null};
+        if (!commands.containsKey(invoke)) {
+            commands.forEach((key, command) -> {
+                if (command.aliases().contains(invoke))
+                    cmd[0] = command;
+            });
+        }else
+            cmd[0] = commands.get(invoke);
+        final List<String> args = Arrays.asList(split).subList(1, split.length);
+        if (cmd[0].isOwnerCommand() && !event.getAuthor().getId().equals(Constants.OWNER_ID)) {
+            event.getChannel().sendMessage("This is an owner command !").queue();
+            return;
+        }
+        if (!Objects.requireNonNull(event.getMember()).hasPermission(cmd[0].permissionsNeeded()) && !event.getAuthor().getId().equals(Constants.OWNER_ID)) {
+            event.getChannel().sendMessage("You don't have permission to do that !").queue();
+            return;
+        }
 
-        if (commands.containsKey(invoke)) {
-            final List<String> args = Arrays.asList(split).subList(1, split.length);
-            ICommand cmd = commands.get(invoke);
-            if (cmd.isOwnerCommand() && !event.getAuthor().getId().equals(Constants.OWNER_ID)) {
-                event.getChannel().sendMessage("This is an owner command !").queue();
-                return;
-            }
-            if (!Objects.requireNonNull(event.getMember()).hasPermission(cmd.permissionsNeeded()) && !event.getAuthor().getId().equals(Constants.OWNER_ID)) {
-                event.getChannel().sendMessage("You don't have permission to do that !").queue();
-                return;
-            }
-
-            if (cmd.hasArgs() && args.size() == 0) {
-                event.getChannel().sendMessage("Please indicate needed arguments !").queue();
-                return;
-            }
-            try {
-                cmd.handle(event, args);
-            }catch(Exception e) {
-                event.getChannel().sendMessageEmbeds(EmbedUtils.createErrorEmbed(event.getJDA(), "Une erreur est survenue lors de l'exécution de cette commande !\n" + e.getMessage()).build()).queue();
-            }
+        if (cmd[0].hasArgs() && args.size() == 0) {
+            event.getChannel().sendMessage("Please indicate needed arguments !").queue();
+            return;
+        }
+        try {
+            cmd[0].handle(event, args);
+        } catch (Exception e) {
+            event.getChannel().sendMessageEmbeds(EmbedUtils.createErrorEmbed(event.getJDA(), "Une erreur est survenue lors de l'exécution de cette commande !\n" + e.getMessage()).build()).queue();
         }
     }
 

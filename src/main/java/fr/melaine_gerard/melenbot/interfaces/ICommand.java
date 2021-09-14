@@ -35,5 +35,9 @@ public interface ICommand {
         return false;
     }
 
+    default List<String> aliases(){
+        return Collections.emptyList();
+    }
+
 
 }

@@ -10,13 +10,17 @@ import fr.melaine_gerard.melenbot.enumerations.CommandCategory;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import fr.melaine_gerard.melenbot.utils.lavaplayer.PlayerManager;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.managers.AudioManager;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.List;
 
 public class PlayCommand implements ICommand {
@@ -38,27 +42,31 @@ public class PlayCommand implements ICommand {
         final GuildVoiceState selfVoiceState = selfMember.getVoiceState();
 
         if(args.isEmpty()){
-            channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Merci d'indiquer le lien d'une vidéo youtube !").build()).queue();
+            channel.sendMessageEmbeds(EmbedUtils.createErrorEmbed(event.getJDA(), "Merci d'indiquer le lien d'une vidéo youtube !").build()).queue();
             return;
         }
-        if (selfVoiceState == null) return;
-        if(!selfVoiceState.inVoiceChannel()){
-            channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Je dois être dans un salon vocal !").build()).queue();
-            return;
-        }
+
 
         final Member member = event.getMember();
         if (member == null)return;
         final GuildVoiceState memberVoiceState = member.getVoiceState();
         if (memberVoiceState == null)return;
         if(!memberVoiceState.inVoiceChannel()){
-            channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Tu dois être dans un salon vocal !").build()).queue();
+            channel.sendMessageEmbeds(EmbedUtils.createErrorEmbed(event.getJDA(), "Tu dois être dans un salon vocal !").build()).queue();
             return;
         }
         if (memberVoiceState.getChannel() == null)return;
-        if(!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())){
-            channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Je dois être dans le même salon que toi !").build()).queue();
-            return;
+        if (selfVoiceState == null) return;
+        if(!selfVoiceState.inVoiceChannel()){
+            final AudioManager audioManager = event.getGuild().getAudioManager();
+            final VoiceChannel memberChannel = memberVoiceState.getChannel();
+
+            if (!selfMember.hasPermission(memberChannel, Permission.VOICE_CONNECT)){
+                channel.sendMessage("Je ne peux pas me connecter à ce salon vocal !").queue();
+                return;
+            }
+
+            audioManager.openAudioConnection(memberChannel);
         }
 
         String link = String.join(" ", args);
@@ -94,5 +102,10 @@ public class PlayCommand implements ICommand {
         }catch (URISyntaxException e){
             return false;
         }
+    }
+
+    @Override
+    public List<String> aliases() {
+        return Collections.singletonList("p");
     }
 }

@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 
+import java.util.Collections;
 import java.util.List;
 
 public class StopCommand implements ICommand {
@@ -59,4 +60,8 @@ public class StopCommand implements ICommand {
 
     }
 
+    @Override
+    public List<String> aliases() {
+        return Collections.singletonList("st");
+    }
 }
