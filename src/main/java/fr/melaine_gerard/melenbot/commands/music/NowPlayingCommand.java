@@ -12,7 +12,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.util.Collections;
 import java.util.List;
 
 public class NowPlayingCommand implements ICommand {
@@ -61,10 +60,5 @@ public class NowPlayingCommand implements ICommand {
 
         channel.sendMessageFormat("Musique en cours de lecture : `%s` par `%s` (lien : <%s>)", info.title, info.author, info.uri).queue();
 
-    }
-
-    @Override
-    public List<String> aliases() {
-        return Collections.singletonList("np");
     }
 }
