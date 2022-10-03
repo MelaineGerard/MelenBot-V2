@@ -7,10 +7,8 @@ import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import fr.melaine_gerard.melenbot.utils.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.channel.unions.AudioChannelUnion;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.managers.AudioManager;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
 import se.michaelthelin.spotify.model_objects.specification.Track;
@@ -43,24 +41,21 @@ public class PlayCommand implements ICommand {
             channel.sendMessageEmbeds(EmbedUtils.createErrorEmbed(event.getJDA(), "Merci d'indiquer le lien d'une vidéo youtube !").build()).queue();
             return;
         }
+        if (selfVoiceState == null || !selfVoiceState.inAudioChannel()) {
+            channel.sendMessageEmbeds(EmbedUtils.createErrorEmbed(event.getJDA(), "Je dois être dans un salon vocal !").build()).queue();
+            return;
+        }
 
         final Member member = event.getMember();
         if (member == null) return;
         final GuildVoiceState memberVoiceState = member.getVoiceState();
         if (memberVoiceState == null) return;
-        if (!memberVoiceState.inAudioChannel() || memberVoiceState.getChannel() == null) {
+        if (!memberVoiceState.inAudioChannel()) {
             channel.sendMessageEmbeds(EmbedUtils.createErrorEmbed(event.getJDA(), "Tu dois être dans un salon vocal !").build()).queue();
             return;
         }
-
-
-        if (selfVoiceState == null || !selfVoiceState.inAudioChannel()|| selfVoiceState.getChannel() == null) {
-            final AudioManager audioManager = event.getGuild().getAudioManager();
-            AudioChannelUnion memberChannel = memberVoiceState.getChannel();
-            audioManager.openAudioConnection(memberChannel);
-        }
-
-        if (selfVoiceState == null || memberVoiceState.getChannel() == null || selfVoiceState.getChannel() == null || !memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
+        if (memberVoiceState.getChannel() == null) return;
+        if (!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
             channel.sendMessageEmbeds(EmbedUtils.createErrorEmbed(event.getJDA(), "Je dois être dans le même salon que toi !").build()).queue();
             return;
         }
