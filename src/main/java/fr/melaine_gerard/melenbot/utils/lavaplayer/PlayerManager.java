@@ -8,7 +8,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,14 +21,14 @@ public class PlayerManager {
     private final Map<Long, GuildMusicManager> musicManagers;
     private final AudioPlayerManager audioPlayerManager;
 
-    public static PlayerManager getInstance(){
-        if (INSTANCE == null){
+    public static PlayerManager getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new PlayerManager();
         }
-         return INSTANCE;
+        return INSTANCE;
     }
 
-    public PlayerManager(){
+    public PlayerManager() {
         this.musicManagers = new HashMap<>();
         this.audioPlayerManager = new DefaultAudioPlayerManager();
 
@@ -45,42 +45,41 @@ public class PlayerManager {
         });
     }
 
-    public void loadAndPlay(TextChannel channel, String trackUrl){
+    public void loadAndPlay(GuildMessageChannel channel, String trackUrl) {
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
 
         this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
                 musicManager.scheduler.queue(audioTrack);
-                channel.sendMessage("Ajout dans la file d'attente : `")
-                        .append(audioTrack.getInfo().title)
-                        .append("` by `")
-                        .append(audioTrack.getInfo().author)
-                        .append("`")
+
+
+                channel.sendMessage("""
+                                Ajout dans la file d'attente : `
+                                %s` by `%s`
+                                """.formatted(audioTrack.getInfo().title, audioTrack.getInfo().author))
                         .queue();
             }
 
             @Override
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
                 final List<AudioTrack> tracks = audioPlaylist.getTracks();
-                if (audioPlaylist.getName().startsWith("Search results for: ")){
+                if (audioPlaylist.getName().startsWith("Search results for: ")) {
                     AudioTrack audioTrack = tracks.get(0);
                     musicManager.scheduler.queue(audioTrack);
-                    channel.sendMessage("Ajout dans la file d'attente : `")
-                            .append(audioTrack.getInfo().title)
-                            .append("` by `")
-                            .append(audioTrack.getInfo().author)
-                            .append("`")
+                    channel.sendMessage("""
+                                    Ajout dans la file d'attente : `
+                                    %s` by `%s`
+                                    """.formatted(audioTrack.getInfo().title, audioTrack.getInfo().author))
                             .queue();
-                }else {
-                    channel.sendMessage("Ajout dans la file d'attente : `")
-                            .append(String.valueOf(tracks.size()))
-                            .append("` musiques de la playlist `")
-                            .append(audioPlaylist.getName())
-                            .append("`")
+                } else {
+                    channel.sendMessage("""
+                                    Ajout dans la file d'attente : `
+                                    %d` musiques de la playlist `%s`
+                                    """.formatted(tracks.size(), audioPlaylist.getName()))
                             .queue();
 
-                    for (final AudioTrack track : tracks){
+                    for (final AudioTrack track : tracks) {
                         musicManager.scheduler.queue(track);
                     }
                 }

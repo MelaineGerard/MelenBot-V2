@@ -15,8 +15,6 @@ import org.simpleyaml.configuration.file.YamlFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.security.auth.login.LoginException;
-
 public class MelenBot {
     private static YamlFile config;
     private static DatabaseManager databaseManager;
@@ -40,7 +38,7 @@ public class MelenBot {
             JDABuilder jdaBuilder = JDABuilder.create(getConfig().getString("token", "token"), GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS));
             jdaBuilder.setActivity(Activity.streaming("MelenBot V2.0", "https://twitch.tv/SkitDev"));
             return jdaBuilder.build().awaitReady();
-        } catch (InterruptedException | LoginException e) {
+        } catch (InterruptedException e) {
             getLogger().error("Couldn't start the bot !");
             e.printStackTrace();
             getLogger().warn("Shutdown in progress...");

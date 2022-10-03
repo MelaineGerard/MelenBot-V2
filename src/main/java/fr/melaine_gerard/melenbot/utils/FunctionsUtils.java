@@ -3,7 +3,7 @@ package fr.melaine_gerard.melenbot.utils;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 import java.util.concurrent.TimeUnit;
 
@@ -30,7 +30,7 @@ public class FunctionsUtils {
         return(sb.toString());
     }
 
-    public static String getImageFromApi(String link, TextChannel channel) {
+    public static String getImageFromApi(String link, MessageChannelUnion channel) {
         HttpResponse<JsonNode> response = Unirest.get(link)
                 .header("accept", "application/json")
                 .asJson();

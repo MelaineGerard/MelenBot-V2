@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.time.OffsetDateTime;
 import java.time.format.TextStyle;
@@ -21,13 +21,13 @@ public class UserinfoCommand implements ICommand {
     }
 
     @Override
-    public void handle(GuildMessageReceivedEvent event, List<String> args) {
-        if(event.getMessage().getMentionedMembers().isEmpty()){
+    public void handle(MessageReceivedEvent event, List<String> args) {
+        if (event.getMessage().getMentions().getMembers().isEmpty()) {
             event.getChannel().sendMessage("Merci de mentionner un membre !").queue();
             return;
         }
-        Member member = event.getMessage().getMentionedMembers().get(0);
-        if (member == null){
+        Member member = event.getMessage().getMentions().getMembers().get(0);
+        if (member == null) {
             event.getChannel().sendMessage("Merci de mentionner un membre !").queue();
             return;
         }
@@ -38,23 +38,23 @@ public class UserinfoCommand implements ICommand {
 
         EmbedBuilder eb = EmbedUtils.createEmbed(event.getJDA());
         eb.setTitle("Quelques informations sur " + member.getUser().getName())
-            .addField("Tag :",member.getUser().getAsTag(), false)
-            .addField("Date de création :", creation_date, false)
-            .addField("Date d'arrivée :", joined_date, false);
+                .addField("Tag :", member.getUser().getAsTag(), false)
+                .addField("Date de création :", creation_date, false)
+                .addField("Date d'arrivée :", joined_date, false);
         StringBuilder sb = new StringBuilder();
-        for (Role role : member.getRoles()){
+        for (Role role : member.getRoles()) {
             sb.append(role.getAsMention()).append(", ");
         }
         String roles = sb.substring(0, sb.length() - 2);
         eb.addField("Roles :", roles.length() <= 1024 ? roles : String.valueOf(member.getRoles().size()), false);
         sb = new StringBuilder();
-        for (Permission permission : member.getPermissions()){
+        for (Permission permission : member.getPermissions()) {
             sb.append(permission.getName()).append(", ");
         }
         String permissions = sb.substring(0, sb.length() - 2);
         eb.addField("Permissions :", "```" + permissions + "```", false);
 
-        event.getChannel().sendMessage(eb.build()).queue();
+        event.getChannel().sendMessageEmbeds(eb.build()).queue();
     }
 
     @Override

@@ -4,7 +4,7 @@ import fr.melaine_gerard.melenbot.enumerations.CommandCategory;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.db.DatabaseUtils;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -17,7 +17,7 @@ public class SetPrefixCommand implements ICommand {
     }
 
     @Override
-    public void handle(GuildMessageReceivedEvent event, List<String> args) {
+    public void handle(MessageReceivedEvent event, List<String> args) {
         if (args.size() == 0){
             event.getChannel().sendMessage("Merci d'indiquer le nouveau prefix").queue();
             return;

@@ -5,7 +5,7 @@ import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class PingCommand implements ICommand {
     }
 
     @Override
-    public void handle(GuildMessageReceivedEvent event, List<String> args) {
+    public void handle(MessageReceivedEvent event, List<String> args) {
         Message msg = event.getChannel().sendMessage("Pong!").complete();
         EmbedBuilder eb = EmbedUtils.createEmbed(event.getJDA())
                 .setTitle("Pong !")

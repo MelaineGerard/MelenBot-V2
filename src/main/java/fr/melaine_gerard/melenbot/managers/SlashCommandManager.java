@@ -6,7 +6,7 @@ import fr.melaine_gerard.melenbot.slashcommands.utils.PingSlashCommand;
 import fr.melaine_gerard.melenbot.utils.Constants;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +27,7 @@ public class SlashCommandManager {
         }
     }
 
-    public void handleSlashCommand(SlashCommandEvent event) {
+    public void handleSlashCommand(SlashCommandInteractionEvent event) {
         final String invoke = event.getName();
 
         if (slashCommands.containsKey(invoke)) {

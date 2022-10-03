@@ -4,10 +4,10 @@ import fr.melaine_gerard.melenbot.enumerations.CommandCategory;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -31,12 +31,12 @@ public class UnmuteCommand implements ICommand {
     }
 
     @Override
-    public void handle(GuildMessageReceivedEvent event, List<String> args) {
-        if (event.getMessage().getMentionedMembers().isEmpty()) {
+    public void handle(MessageReceivedEvent event, List<String> args) {
+        if (event.getMessage().getMentions().getMembers().isEmpty()) {
             event.getChannel().sendMessage("Merci de mentionner la personne dont il faut rendre la parole !").queue();
             return;
         }
-        Member member = event.getMessage().getMentionedMembers().get(0);
+        Member member = event.getMessage().getMentions().getMembers().get(0);
 
 
         if (!Objects.requireNonNull(event.getMember()).canInteract(member)) {
@@ -54,8 +54,8 @@ public class UnmuteCommand implements ICommand {
         }
         Role role = event.getGuild().getRolesByName("Muted", true).get(0);
         for (GuildChannel channel : event.getGuild().getChannels()){
-            if (!channel.getPermissionOverrides().contains(channel.getPermissionOverride(role))){
-                channel.createPermissionOverride(role).setDeny(Permission.MESSAGE_WRITE, Permission.MESSAGE_ADD_REACTION, Permission.VOICE_SPEAK).queue();
+            if (!channel.getPermissionContainer().getPermissionOverrides().contains(channel.getPermissionContainer().getPermissionOverride(role))){
+                channel.getPermissionContainer().upsertPermissionOverride(role).deny(Permission.MESSAGE_SEND, Permission.MESSAGE_ADD_REACTION, Permission.VOICE_SPEAK).queue();
             }
         }
 
@@ -64,7 +64,7 @@ public class UnmuteCommand implements ICommand {
             return;
         }
         event.getGuild().removeRoleFromMember(member, role).queue();
-        event.getChannel().sendMessage(EmbedUtils.createSuccessEmbed(event.getJDA(), member.getAsMention() + " vient de récupérer la parole !").build()).queue();
+        event.getChannel().sendMessageEmbeds(EmbedUtils.createSuccessEmbed(event.getJDA(), member.getAsMention() + " vient de récupérer la parole !").build()).queue();
 
     }
 

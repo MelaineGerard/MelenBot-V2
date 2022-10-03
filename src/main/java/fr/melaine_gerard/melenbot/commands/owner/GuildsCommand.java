@@ -5,7 +5,7 @@ import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class GuildsCommand implements ICommand {
     }
 
     @Override
-    public void handle(GuildMessageReceivedEvent event, List<String> args) {
+    public void handle(MessageReceivedEvent event, List<String> args) {
         StringBuilder sb = new StringBuilder();
         for (Guild g : event.getJDA().getGuilds()){
             sb.append(g.getName()).append(" (").append(g.getMemberCount()).append(" membres)\n");
@@ -29,7 +29,7 @@ public class GuildsCommand implements ICommand {
         EmbedBuilder eb = EmbedUtils.createEmbed(event.getJDA())
                 .setDescription(sb.toString())
                 .setTitle("Liste des serveurs ou je suis (" + event.getJDA().getGuilds().size() + " serveurs)");
-        event.getChannel().sendMessage(eb.build()).queue();
+        event.getChannel().sendMessageEmbeds(eb.build()).queue();
 
     }
 

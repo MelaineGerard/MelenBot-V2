@@ -4,7 +4,7 @@ import fr.melaine_gerard.melenbot.managers.CommandManager;
 import fr.melaine_gerard.melenbot.utils.Constants;
 import fr.melaine_gerard.melenbot.utils.db.DatabaseUtils;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class GuildMessageReceivedListeners extends ListenerAdapter {
@@ -13,11 +13,11 @@ public class GuildMessageReceivedListeners extends ListenerAdapter {
 
 
     @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+    public void onMessageReceived(MessageReceivedEvent event) {
         if (event.getAuthor().isBot() || event.getMessage().isWebhookMessage()) return;
         String temp = DatabaseUtils.getPrefix(event.getGuild().getId());
         String prefix = temp != null ? temp : Constants.PREFIX;
-        if (event.getMessage().getContentRaw().startsWith(prefix) && event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_WRITE)) {
+        if (event.getMessage().getContentRaw().startsWith(prefix) && event.getGuild().getSelfMember().hasPermission(event.getChannel().asGuildMessageChannel(), Permission.MESSAGE_SEND)) {
             commandManager.handleCommand(event);
         }
     }

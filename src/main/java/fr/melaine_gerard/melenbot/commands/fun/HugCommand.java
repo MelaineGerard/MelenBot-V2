@@ -4,7 +4,7 @@ import fr.melaine_gerard.melenbot.enumerations.CommandCategory;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import fr.melaine_gerard.melenbot.utils.FunctionsUtils;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class HugCommand implements ICommand {
     }
 
     @Override
-    public void handle(GuildMessageReceivedEvent event, List<String> args) {
+    public void handle(MessageReceivedEvent event, List<String> args) {
         String person = "lui-même";
         if (args.size() != 0) {
             StringBuilder sb = new StringBuilder();

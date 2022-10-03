@@ -1,13 +1,10 @@
 package fr.melaine_gerard.melenbot.interfaces;
 
-import fr.melaine_gerard.melenbot.enumerations.CommandCategory;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 public interface ISlashCommand {
     default String getName() {
@@ -20,7 +17,7 @@ public interface ISlashCommand {
         return "";
     }
 
-    void handle(SlashCommandEvent event);
+    void handle(SlashCommandInteractionEvent event);
 
     default Collection<Permission> permissionsNeeded(){
         return Collections.emptyList();

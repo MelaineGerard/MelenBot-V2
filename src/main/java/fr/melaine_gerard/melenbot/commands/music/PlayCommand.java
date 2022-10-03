@@ -1,10 +1,5 @@
 package fr.melaine_gerard.melenbot.commands.music;
 
-import com.wrapper.spotify.SpotifyApi;
-import com.wrapper.spotify.model_objects.credentials.ClientCredentials;
-import com.wrapper.spotify.model_objects.specification.Track;
-import com.wrapper.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
-import com.wrapper.spotify.requests.data.tracks.GetTrackRequest;
 import fr.melaine_gerard.melenbot.MelenBot;
 import fr.melaine_gerard.melenbot.enumerations.CommandCategory;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
@@ -12,8 +7,13 @@ import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import fr.melaine_gerard.melenbot.utils.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import se.michaelthelin.spotify.SpotifyApi;
+import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
+import se.michaelthelin.spotify.model_objects.specification.Track;
+import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
+import se.michaelthelin.spotify.requests.data.tracks.GetTrackRequest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -31,40 +31,40 @@ public class PlayCommand implements ICommand {
     }
 
     @Override
-    public void handle(GuildMessageReceivedEvent event,
+    public void handle(MessageReceivedEvent event,
                        List<String> args) {
-        final TextChannel channel = event.getChannel();
+        final MessageChannelUnion channel = event.getChannel();
         final Member selfMember = event.getGuild().getSelfMember();
         final GuildVoiceState selfVoiceState = selfMember.getVoiceState();
 
-        if(args.isEmpty()){
-            channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Merci d'indiquer le lien d'une vidéo youtube !").build()).queue();
+        if (args.isEmpty()) {
+            channel.sendMessageEmbeds(EmbedUtils.createErrorEmbed(event.getJDA(), "Merci d'indiquer le lien d'une vidéo youtube !").build()).queue();
             return;
         }
         if (selfVoiceState == null) return;
-        if(!selfVoiceState.inVoiceChannel()){
-            channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Je dois être dans un salon vocal !").build()).queue();
+        if (!selfVoiceState.inAudioChannel()) {
+            channel.sendMessageEmbeds(EmbedUtils.createErrorEmbed(event.getJDA(), "Je dois être dans un salon vocal !").build()).queue();
             return;
         }
 
         final Member member = event.getMember();
-        if (member == null)return;
+        if (member == null) return;
         final GuildVoiceState memberVoiceState = member.getVoiceState();
-        if (memberVoiceState == null)return;
-        if(!memberVoiceState.inVoiceChannel()){
-            channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Tu dois être dans un salon vocal !").build()).queue();
+        if (memberVoiceState == null) return;
+        if (!memberVoiceState.inAudioChannel()) {
+            channel.sendMessageEmbeds(EmbedUtils.createErrorEmbed(event.getJDA(), "Tu dois être dans un salon vocal !").build()).queue();
             return;
         }
-        if (memberVoiceState.getChannel() == null)return;
-        if(!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())){
-            channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "Je dois être dans le même salon que toi !").build()).queue();
+        if (memberVoiceState.getChannel() == null) return;
+        if (!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
+            channel.sendMessageEmbeds(EmbedUtils.createErrorEmbed(event.getJDA(), "Je dois être dans le même salon que toi !").build()).queue();
             return;
         }
 
         String link = String.join(" ", args);
-        if(!isUrl(link)){
+        if (!isUrl(link)) {
             link = "ytsearch:" + link;
-        }else if (link.contains("spotify.com")){
+        } else if (link.contains("spotify.com")) {
             try {
                 SpotifyApi spotifyApi = new SpotifyApi.Builder()
                         .setClientId(MelenBot.getConfig().getString("spotify.id"))
@@ -78,20 +78,20 @@ public class PlayCommand implements ICommand {
                 GetTrackRequest getTrackRequest = spotifyApi.getTrack(spotifyTrackId).build();
                 Track track = getTrackRequest.execute();
                 link = "ytsearch:" + track.getName() + " - " + track.getArtists()[0].getName();
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        PlayerManager.getInstance().loadAndPlay(channel, link);
+        PlayerManager.getInstance().loadAndPlay(channel.asGuildMessageChannel(), link);
 
     }
 
-    private boolean isUrl(String url){
+    private boolean isUrl(String url) {
         try {
             new URI(url);
             return true;
-        }catch (URISyntaxException e){
+        } catch (URISyntaxException e) {
             return false;
         }
     }

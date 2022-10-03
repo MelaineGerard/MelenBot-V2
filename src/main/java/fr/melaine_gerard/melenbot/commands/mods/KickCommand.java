@@ -5,7 +5,7 @@ import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -19,12 +19,12 @@ public class KickCommand implements ICommand {
     }
 
     @Override
-    public void handle(GuildMessageReceivedEvent event, List<String> args) {
-        if (event.getMessage().getMentionedMembers().isEmpty()) {
+    public void handle(MessageReceivedEvent event, List<String> args) {
+        if (event.getMessage().getMentions().getMembers().isEmpty()) {
             event.getChannel().sendMessage("Merci de mentionner la personne à expulser !").queue();
             return;
         }
-        Member member = event.getMessage().getMentionedMembers().get(0);
+        Member member = event.getMessage().getMentions().getMembers().get(0);
 
         String reason = "No reason";
         if (!args.isEmpty()){
@@ -44,7 +44,7 @@ public class KickCommand implements ICommand {
             return;
         }
 
-        member.kick(reason).queue(mbr -> event.getChannel().sendMessage(EmbedUtils.createSuccessEmbed(event.getJDA(), member.getUser().getAsTag() + " a été expulsé avec succès !").build()).queue());
+        member.kick().reason(reason).queue(mbr -> event.getChannel().sendMessageEmbeds(EmbedUtils.createSuccessEmbed(event.getJDA(), member.getUser().getAsTag() + " a été expulsé avec succès !").build()).queue());
     }
 
 

@@ -2,7 +2,7 @@ package fr.melaine_gerard.melenbot.interfaces;
 
 import fr.melaine_gerard.melenbot.enumerations.CommandCategory;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.*;
 
@@ -21,7 +21,7 @@ public interface ICommand {
         return CommandCategory.OTHER;
     }
 
-    void handle(GuildMessageReceivedEvent event, List<String> args);
+    void handle(MessageReceivedEvent event, List<String> args);
 
     default boolean isOwnerCommand(){
         return false;

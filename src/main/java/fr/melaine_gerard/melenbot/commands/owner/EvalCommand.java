@@ -5,7 +5,7 @@ import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import groovy.lang.GroovyShell;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
 
@@ -15,19 +15,21 @@ public class EvalCommand implements ICommand {
 
     public EvalCommand(){
         this.engine = new GroovyShell();
-        this.imports = "import java.io.*\n" +
-                "import java.lang.*\n" +
-                "import java.util.*\n" +
-                "import java.util.concurrent.*\n" +
-                "import net.dv8tion.jda.api.*\n" +
-                "import net.dv8tion.jda.api.entities.*\n" +
-                "import net.dv8tion.jda.api.entities.impl.*\n" +
-                "import net.dv8tion.jda.api.managers.*\n" +
-                "import net.dv8tion.jda.api.managers.impl.*\n" +
-                "import net.dv8tion.jda.api.utils.*\n" +
-                "import fr.melaine_gerard.melenbot.*\n" +
-                "import fr.melaine_gerard.melenbot.utils.*\n" +
-                "import fr.melaine_gerard.melenbot.utils.db.*\n";
+        this.imports = """
+                import java.io.*
+                import java.lang.*
+                import java.util.*
+                import java.util.concurrent.*
+                import net.dv8tion.jda.api.*
+                import net.dv8tion.jda.api.entities.*
+                import net.dv8tion.jda.api.entities.impl.*
+                import net.dv8tion.jda.api.managers.*
+                import net.dv8tion.jda.api.managers.impl.*
+                import net.dv8tion.jda.api.utils.*
+                import fr.melaine_gerard.melenbot.*
+                import fr.melaine_gerard.melenbot.utils.*
+                import fr.melaine_gerard.melenbot.utils.db.*
+                """;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class EvalCommand implements ICommand {
     }
 
     @Override
-    public void handle(GuildMessageReceivedEvent event, List<String> args) {
+    public void handle(MessageReceivedEvent event, List<String> args) {
         if(args.isEmpty()){
             event.getChannel().sendMessage("Merci d'indiquer le code à exécuter").queue();
             return;
@@ -55,11 +57,11 @@ public class EvalCommand implements ICommand {
             Object out = engine.evaluate(script);
 
             if (out == null)
-                event.getChannel().sendMessage(EmbedUtils.createSuccessEmbed(event.getJDA(), "Exécuté avec succès !").build()).queue();
-            else if (out instanceof MessageEmbed)
-                event.getChannel().sendMessage((MessageEmbed) out).queue();
+                event.getChannel().sendMessageEmbeds(EmbedUtils.createSuccessEmbed(event.getJDA(), "Exécuté avec succès !").build()).queue();
+            else if (out instanceof MessageEmbed resultEmbed)
+                event.getChannel().sendMessageEmbeds(resultEmbed).queue();
             else
-                event.getChannel().sendMessage(EmbedUtils.createEmbed(event.getJDA()).setTitle("Code Exécuté : ").setDescription(String.format("```\n%s\n```", out.toString())).build()).queue();
+                event.getChannel().sendMessageEmbeds(EmbedUtils.createEmbed(event.getJDA()).setTitle("Code Exécuté : ").setDescription(String.format("```\n%s\n```", out)).build()).queue();
         }catch (Exception e){
             event.getChannel().sendMessage("Une erreur est survenu lors de l'éxécution de la commande : \n" + e.getMessage()).queue();
         }

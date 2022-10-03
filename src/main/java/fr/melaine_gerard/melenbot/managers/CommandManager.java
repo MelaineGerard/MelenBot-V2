@@ -10,7 +10,7 @@ import fr.melaine_gerard.melenbot.commands.utils.*;
 import fr.melaine_gerard.melenbot.interfaces.ICommand;
 import fr.melaine_gerard.melenbot.utils.*;
 import fr.melaine_gerard.melenbot.utils.db.*;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -71,7 +71,7 @@ public class CommandManager {
     }
 
 
-    public void handleCommand(GuildMessageReceivedEvent event) {
+    public void handleCommand(MessageReceivedEvent event) {
         String temp = DatabaseUtils.getPrefix(event.getGuild().getId());
         String prefix = temp != null ? temp : Constants.PREFIX;
         final String[] split = event.getMessage().getContentRaw().replaceFirst("(?i)" + Pattern.quote(prefix), "").split("\\s+");

@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.SelfUser;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
@@ -32,7 +32,7 @@ public class BotinfoCommand implements ICommand {
     }
 
     @Override
-    public void handle(GuildMessageReceivedEvent event, List<String> args) {
+    public void handle(MessageReceivedEvent event, List<String> args) {
         final RuntimeMXBean rb = ManagementFactory.getRuntimeMXBean();
         final JDA jda = event.getJDA();
         final SelfUser bot = jda.getSelfUser();
@@ -58,7 +58,7 @@ public class BotinfoCommand implements ICommand {
                 .addField("Site Web :", "Bientôt", false);
 
 
-        event.getChannel().sendMessage(eb.build()).queue();
+        event.getChannel().sendMessageEmbeds(eb.build()).queue();
     }
 
     @Override

@@ -8,8 +8,8 @@ import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import fr.melaine_gerard.melenbot.utils.lavaplayer.GuildMusicManager;
 import fr.melaine_gerard.melenbot.utils.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +27,13 @@ public class QueueCommand implements ICommand {
     }
 
     @Override
-    public void handle(GuildMessageReceivedEvent event, List<String> args) {
-        final TextChannel channel = event.getChannel();
+    public void handle(MessageReceivedEvent event, List<String> args) {
+        final MessageChannelUnion channel = event.getChannel();
         final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(event.getGuild());
         final BlockingQueue<AudioTrack> queue = musicManager.scheduler.queue;
 
         if (queue.isEmpty()) {
-            channel.sendMessage(EmbedUtils.createErrorEmbed(event.getJDA(), "La vie d'attente est vide !").build()).queue();
+            channel.sendMessageEmbeds(EmbedUtils.createErrorEmbed(event.getJDA(), "La vie d'attente est vide !").build()).queue();
             return;
         }
 
@@ -43,13 +43,13 @@ public class QueueCommand implements ICommand {
         for (int i = 0; i < trackCount; i++) {
             final AudioTrack track = trackList.get(i);
             final AudioTrackInfo info = track.getInfo();
-            eb.addField(" ", "**" + (i + 1) + ".** `" +   info.title + "` - *" + info.author + "*", false);
+            eb.addField(" ", "**" + (i + 1) + ".** `" + info.title + "` - *" + info.author + "*", false);
         }
 
         if (trackList.size() > trackCount) {
             eb.setFooter("et " + (trackList.size() - trackCount) + " autres...");
         }
-        channel.sendMessage(eb.build()).queue();
+        channel.sendMessageEmbeds(eb.build()).queue();
 
     }
 

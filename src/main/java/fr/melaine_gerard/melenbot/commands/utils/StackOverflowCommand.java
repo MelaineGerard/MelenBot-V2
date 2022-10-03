@@ -9,7 +9,7 @@ import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONArray;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class StackOverflowCommand implements ICommand {
     }
 
     @Override
-    public void handle(GuildMessageReceivedEvent event, List<String> args) {
+    public void handle(MessageReceivedEvent event, List<String> args) {
         StringBuilder sb = new StringBuilder();
         for (String arg : args)
             sb.append(arg).append(" ");
@@ -36,18 +36,18 @@ public class StackOverflowCommand implements ICommand {
                 .header("key", MelenBot.getConfig().getString("stackoverflow.key"))
                 .asJson();
         JSONArray items = response.getBody().getObject().getJSONArray("items");
-        if(items.length() == 0){
+        if (items.length() == 0) {
             event.getChannel().sendMessage("Aucun résultat trouvé !").queue();
             return;
         }
         EmbedBuilder eb = EmbedUtils.createEmbed(event.getJDA());
         eb.setTitle("Les " + items.length() + " premiers résultats trouvé pour ta recherche sur StackOverflow");
         StringBuilder desc = new StringBuilder();
-        for (int i = 0 ; i < items.length(); i++){
+        for (int i = 0; i < items.length(); i++) {
             desc.append("▫️ [").append(items.getJSONObject(i).getString("title")).append("](").append(items.getJSONObject(i).getString("link")).append(")\n");
         }
         eb.setDescription(desc.toString());
-        event.getChannel().sendMessage(eb.build()).queue();
+        event.getChannel().sendMessageEmbeds(eb.build()).queue();
     }
 
     @Override
