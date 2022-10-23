@@ -34,7 +34,7 @@ public class HugCommand implements ICommand {
             }
             person = sb.toString();
         }
-        String imageUrl = FunctionsUtils.getImageFromApi("https://melenbot-api.melaine-gerard.fr/hug", event.getChannel());
+        String imageUrl = FunctionsUtils.getImageFromApi("https://melenbot-api.melaine-gerard.fr/hug");
         event.getChannel().sendMessageEmbeds(EmbedUtils.createEmbed(event.getJDA()).setTitle(event.getAuthor().getName() + " fait un câlin à " + person).setImage(imageUrl).build()).queue();
     }
 

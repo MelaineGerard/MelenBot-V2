@@ -14,16 +14,22 @@ public class HugSlashCommand implements ISlashCommand {
 
     @Override
     public void handle(SlashCommandInteractionEvent event) {
-        String person = "lui-même";
-        if (event.getOptions().size() != 0) {
-            StringBuilder sb = new StringBuilder();
-            for (OptionMapping arg : event.getOptions()) {
-                sb.append(arg.getAsString()).append(" ");
+        event.deferReply().queue(interactionHook -> {
+            String person = "lui-même";
+            if (event.getOptions().size() != 0) {
+                StringBuilder sb = new StringBuilder();
+                for (OptionMapping arg : event.getOptions()) {
+                    sb.append(arg.getAsString()).append(" ");
+                }
+                person = sb.toString();
             }
-            person = sb.toString();
-        }
-        String imageUrl = FunctionsUtils.getImageFromApi("https://melenbot-api.melaine-gerard.fr/hug", event.getChannel());
-        event.getHook().sendMessageEmbeds(EmbedUtils.createEmbed(event.getJDA()).setTitle(event.getUser().getName() + " fait un câlin à " + person).setImage(imageUrl).build()).setEphemeral(false).queue();
+            String imageUrl = FunctionsUtils.getImageFromApi("https://melenbot-api.melaine-gerard.fr/hug");
+            if(imageUrl.isEmpty()) {
+                interactionHook.sendMessage("Impossible de récupérer une image !").queue();
+                return;
+            }
+            interactionHook.sendMessageEmbeds(EmbedUtils.createEmbed(event.getJDA()).setTitle(event.getUser().getName() + " fait un câlin à " + person).setImage(imageUrl).build()).setEphemeral(false).queue();
+        });
     }
 
     @Override

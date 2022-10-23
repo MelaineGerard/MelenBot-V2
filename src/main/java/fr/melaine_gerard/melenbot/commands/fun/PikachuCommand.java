@@ -21,7 +21,8 @@ public class PikachuCommand implements ICommand {
 
     @Override
     public void handle(MessageReceivedEvent event, List<String> args) {
-        String imageUrl = FunctionsUtils.getImageFromApi("https://melenbot-api.melaine-gerard.fr/pikachu", event.getChannel());
+        String imageUrl = FunctionsUtils.getImageFromApi("https://melenbot-api.melaine-gerard.fr/pikachu");
+        if(imageUrl.isEmpty()) return;
         event.getChannel().sendMessageEmbeds(EmbedUtils.createEmbed(event.getJDA()).setTitle("Pikachu !").setImage(imageUrl).build()).queue();
     }
 }

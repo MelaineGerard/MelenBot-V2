@@ -2,11 +2,18 @@ package fr.melaine_gerard.melenbot.managers;
 
 import fr.melaine_gerard.melenbot.interfaces.ISlashCommand;
 import fr.melaine_gerard.melenbot.slashcommands.fun.HugSlashCommand;
+import fr.melaine_gerard.melenbot.slashcommands.fun.PikachuSlashCommand;
+import fr.melaine_gerard.melenbot.slashcommands.infos.BotinfoSlashCommand;
+import fr.melaine_gerard.melenbot.slashcommands.infos.ServerinfoSlashCommand;
+import fr.melaine_gerard.melenbot.slashcommands.infos.UserinfoSlashCommand;
+import fr.melaine_gerard.melenbot.slashcommands.mods.BanSlashCommand;
+import fr.melaine_gerard.melenbot.slashcommands.mods.KickSlashCommand;
 import fr.melaine_gerard.melenbot.slashcommands.utils.PingSlashCommand;
 import fr.melaine_gerard.melenbot.utils.Constants;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.requests.restaction.CommandCreateAction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,8 +24,21 @@ public class SlashCommandManager {
 
 
     public SlashCommandManager() {
-        addSlashCommand(new PingSlashCommand());
+        //Fun
         addSlashCommand(new HugSlashCommand());
+        addSlashCommand(new PikachuSlashCommand());
+
+        // Infos
+        addSlashCommand(new BotinfoSlashCommand(this));
+        addSlashCommand(new ServerinfoSlashCommand());
+        addSlashCommand(new UserinfoSlashCommand());
+
+        // Mods
+        addSlashCommand(new BanSlashCommand());
+        addSlashCommand(new KickSlashCommand());
+
+        // Utils
+        addSlashCommand(new PingSlashCommand());
     }
 
     private void addSlashCommand(ISlashCommand slashCommand) {
@@ -32,6 +52,11 @@ public class SlashCommandManager {
 
         if (slashCommands.containsKey(invoke)) {
             ISlashCommand cmd = getSlashCommand(invoke);
+            if (!event.isFromGuild()) {
+                event.reply("Tu dois utiliser cette commande sur un serveur Discord !").queue();
+                return;
+            }
+
             if (!Objects.requireNonNull(event.getMember()).hasPermission(cmd.permissionsNeeded()) && !event.getUser().getId().equals(Constants.OWNER_ID)) {
                 event.reply("You don't have permission to do that !").queue();
                 return;
@@ -53,6 +78,12 @@ public class SlashCommandManager {
     }
 
     public void registerSlashCommands(JDA jda){
-        getSlashCommands().forEach((name, slashCommand) -> jda.upsertCommand(slashCommand.getName(), slashCommand.getDescription()).queue());
+        getSlashCommands().forEach((name, slashCommand) -> {
+            CommandCreateAction command = jda.upsertCommand(slashCommand.getName(), slashCommand.getDescription());
+            if(!slashCommand.getOptions().isEmpty()) {
+                command.addOptions(slashCommand.getOptions());
+            }
+            command.queue();
+        });
     }
 }
