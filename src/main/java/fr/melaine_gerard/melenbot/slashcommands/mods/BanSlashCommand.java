@@ -2,13 +2,16 @@ package fr.melaine_gerard.melenbot.slashcommands.mods;
 
 import fr.melaine_gerard.melenbot.interfaces.ISlashCommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class BanSlashCommand implements ISlashCommand {
@@ -20,10 +23,14 @@ public class BanSlashCommand implements ISlashCommand {
     @Override
     public void handle(SlashCommandInteractionEvent event) {
         Member author = event.getMember();
-        Member member = event.getOption("user").getAsMember();
+        Member member = Objects.requireNonNull(event.getOption("user")).getAsMember();
 
-        String reason = event.getOption("reason").getAsString();
+        String reason = Objects.requireNonNull(event.getOption("reason")).getAsString();
 
+        if(author == null || member == null || event.getGuild() == null){
+            event.reply("Il me manque des informations pour réduire au silence une personne, contactez le créateur si besoin !").queue();
+            return;
+        }
 
         if (!author.canInteract(member)) {
             event.reply("Tu ne peux pas bannir cette personne !").queue();
@@ -45,5 +52,10 @@ public class BanSlashCommand implements ISlashCommand {
 
 
         return options;
+    }
+
+    @Override
+    public Collection<Permission> permissionsNeeded() {
+        return List.of(Permission.BAN_MEMBERS);
     }
 }

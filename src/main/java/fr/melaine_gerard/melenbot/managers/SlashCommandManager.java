@@ -8,6 +8,8 @@ import fr.melaine_gerard.melenbot.slashcommands.infos.ServerinfoSlashCommand;
 import fr.melaine_gerard.melenbot.slashcommands.infos.UserinfoSlashCommand;
 import fr.melaine_gerard.melenbot.slashcommands.mods.BanSlashCommand;
 import fr.melaine_gerard.melenbot.slashcommands.mods.KickSlashCommand;
+import fr.melaine_gerard.melenbot.slashcommands.mods.MuteSlashCommand;
+import fr.melaine_gerard.melenbot.slashcommands.mods.UnmuteSlashCommand;
 import fr.melaine_gerard.melenbot.slashcommands.utils.PingSlashCommand;
 import fr.melaine_gerard.melenbot.utils.Constants;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
@@ -36,6 +38,8 @@ public class SlashCommandManager {
         // Mods
         addSlashCommand(new BanSlashCommand());
         addSlashCommand(new KickSlashCommand());
+        addSlashCommand(new MuteSlashCommand());
+        addSlashCommand(new UnmuteSlashCommand());
 
         // Utils
         addSlashCommand(new PingSlashCommand());

@@ -2,13 +2,16 @@ package fr.melaine_gerard.melenbot.slashcommands.mods;
 
 import fr.melaine_gerard.melenbot.interfaces.ISlashCommand;
 import fr.melaine_gerard.melenbot.utils.EmbedUtils;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class KickSlashCommand implements ISlashCommand {
     @Override
@@ -18,11 +21,17 @@ public class KickSlashCommand implements ISlashCommand {
 
     @Override
     public void handle(SlashCommandInteractionEvent event) {
-        Member member = event.getOption("user").getAsMember();
+        Member member = Objects.requireNonNull(event.getOption("user")).getAsMember();
+        Member author = event.getMember();
 
-        String reason = event.getOption("reason").getAsString();
+        String reason = Objects.requireNonNull(event.getOption("reason")).getAsString();
 
-        if(!event.getMember().canInteract(member)){
+        if(author == null || member == null || event.getGuild() == null){
+            event.reply("Il me manque des informations pour réduire au silence une personne, contactez le créateur si besoin !").queue();
+            return;
+        }
+
+        if(!author.canInteract(member)){
             event.reply("Tu ne peux pas expulser cette personne !").queue();
             return;
         }
@@ -42,5 +51,10 @@ public class KickSlashCommand implements ISlashCommand {
 
 
         return options;
+    }
+
+    @Override
+    public Collection<Permission> permissionsNeeded() {
+        return List.of(Permission.KICK_MEMBERS);
     }
 }

@@ -1,9 +1,5 @@
 package fr.melaine_gerard.melenbot.managers;
 
-import fr.melaine_gerard.melenbot.commands.fun.HugCommand;
-import fr.melaine_gerard.melenbot.commands.fun.PikachuCommand;
-import fr.melaine_gerard.melenbot.commands.infos.*;
-import fr.melaine_gerard.melenbot.commands.mods.*;
 import fr.melaine_gerard.melenbot.commands.music.*;
 import fr.melaine_gerard.melenbot.commands.owner.*;
 import fr.melaine_gerard.melenbot.commands.utils.*;
@@ -25,15 +21,8 @@ public class CommandManager {
         addCommand(new GuildsCommand());
         addCommand(new ExecCommand());
 
-        // Mods
-        addCommand(new BanCommand());
-        addCommand(new KickCommand());
-        addCommand(new MuteCommand());
-        addCommand(new UnmuteCommand());
-
         // Utils
         addCommand(new PollCommand());
-        addCommand(new PingCommand());
         addCommand(new HelpCommand(this));
         addCommand(new SetPrefixCommand());
         addCommand(new SetChannelCommand());
@@ -52,16 +41,6 @@ public class CommandManager {
         addCommand(new LeaveCommand());
         addCommand(new VolumeCommand());
         addCommand(new ShuffleCommand());
-
-        // Infos
-        addCommand(new BotinfoCommand(this));
-        addCommand(new ServerinfoCommand());
-        addCommand(new UserinfoCommand());
-
-        // Fun
-        addCommand(new HugCommand());
-        addCommand(new PikachuCommand());
-
     }
 
     private void addCommand(ICommand command) {
