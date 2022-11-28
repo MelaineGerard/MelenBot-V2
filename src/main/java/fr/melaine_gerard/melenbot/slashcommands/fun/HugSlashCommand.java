@@ -23,7 +23,7 @@ public class HugSlashCommand implements ISlashCommand {
                 }
                 person = sb.toString();
             }
-            String imageUrl = FunctionsUtils.getImageFromApi("https://melenbot-api.melaine-gerard.fr/hug");
+            String imageUrl = FunctionsUtils.getImageFromApi("https://melenbot-api.melaine-gerard.fr/api/image/hug");
             if(imageUrl.isEmpty()) {
                 interactionHook.sendMessage("Impossible de récupérer une image !").queue();
                 return;
