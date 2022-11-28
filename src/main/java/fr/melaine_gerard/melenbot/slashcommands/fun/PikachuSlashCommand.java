@@ -14,7 +14,7 @@ public class PikachuSlashCommand implements ISlashCommand {
     @Override
     public void handle(SlashCommandInteractionEvent event) {
         event.deferReply().queue(interactionHook -> {
-            String imageUrl = FunctionsUtils.getImageFromApi("https://melenbot-api.melaine-gerard.fr/pikachu");
+            String imageUrl = FunctionsUtils.getImageFromApi("https://melenbot-api.melaine-gerard.fr/api/image/pikachu");
             if(imageUrl.isEmpty()) {
                 interactionHook.sendMessage("Impossible de récupérer une image !").queue();
                 return;
